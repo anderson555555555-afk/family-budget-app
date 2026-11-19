@@ -2,10 +2,12 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
   <meta name="referrer" content="no-referrer">
 
-  <title>Семейный бюджет 2.0</title>
+  <title>Семейный бюджет</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -16,113 +18,228 @@
 
     body {
       margin: 0;
-      padding: 18px;
-      font-family: Arial, sans-serif;
-      background: #f2f4f7;
-      color: #202124;
+      padding: 16px;
+      padding-bottom: 35px;
+      background: var(--tg-theme-bg-color, #f3f4f6);
+      color: var(--tg-theme-text-color, #222);
+      font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     h1 {
       font-size: 25px;
-      margin: 8px 0;
+      margin: 8px 0 5px;
     }
 
     .period {
-      color: #6b7280;
+      color: var(--tg-theme-hint-color, #888);
+      font-size: 14px;
       margin-bottom: 20px;
     }
 
     .card {
-      background: white;
-      padding: 18px;
+      background: var(--tg-theme-secondary-bg-color, #fff);
       border-radius: 16px;
+      padding: 18px;
       margin-bottom: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.04);
     }
 
-    .main-balance {
-      background: #1f2937;
+    .main-card {
+      background: #246bfd;
       color: white;
     }
 
-    .main-balance .amount {
-      font-size: 32px;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
     .label {
-      color: #777;
       font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 7px;
     }
 
-    .main-balance .label {
-      color: #d1d5db;
+    .total {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .available {
+      font-size: 25px;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: 19px;
+      margin: 22px 0 12px;
     }
 
     .category {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
-      margin-top: 13px;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
+    }
+
+    .category:last-child {
+      border-bottom: none;
     }
 
     .category-name {
-      font-weight: bold;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .category-spent {
+      color: var(--tg-theme-hint-color, #888);
+      font-size: 12px;
+      margin-top: 4px;
     }
 
     .category-balance {
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 17px;
       white-space: nowrap;
     }
 
+    .primary-button {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      background: var(--tg-theme-button-color, #2481cc);
+      color: var(--tg-theme-button-text-color, white);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .primary-button:disabled {
+      opacity: 0.5;
+    }
+
+    .secondary-button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      background: var(--tg-theme-secondary-bg-color, #ddd);
+      color: var(--tg-theme-text-color, #222);
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 11px;
+      border: 1px solid var(--tg-theme-hint-color, #ccc);
+      background: var(--tg-theme-bg-color, white);
+      color: var(--tg-theme-text-color, #222);
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--tg-theme-button-color, #2481cc);
+    }
+
     .history-item {
-      padding: 12px 0;
-      border-bottom: 1px solid #eee;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
     }
 
     .history-item:last-child {
       border-bottom: none;
     }
 
-    .history-title {
-      font-weight: bold;
+    .history-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: 600;
     }
 
-    .history-info {
-      color: #777;
-      font-size: 13px;
-      margin-top: 5px;
+    .history-description {
+      overflow-wrap: anywhere;
     }
 
     .history-amount {
+      white-space: nowrap;
+    }
+
+    .history-info {
+      color: var(--tg-theme-hint-color, #888);
+      font-size: 12px;
       margin-top: 5px;
-      font-weight: bold;
     }
 
-    .status {
-      padding: 14px;
-      background: white;
-      border-radius: 12px;
-      margin-bottom: 15px;
+    .empty {
+      color: var(--tg-theme-hint-color, #888);
+      text-align: center;
+      padding: 18px 0;
       font-size: 14px;
-    }
-
-    .error {
-      color: #b91c1c;
-      white-space: pre-wrap;
     }
 
     .hidden {
       display: none;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .message.error {
+      display: block;
+      background: #ffe5e5;
+      color: #a00000;
+    }
+
+    .message.success {
+      display: block;
+      background: #e0f5e7;
+      color: #126b32;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 35px 10px;
+      color: var(--tg-theme-hint-color, #888);
+    }
+
+    .form-title {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 18px;
     }
   </style>
 </head>
 
 <body>
 
-  <div id="status" class="status">
+<div class="container">
+
+  <div id="loading" class="loading">
     Подключаемся к семейному бюджету...
   </div>
 
@@ -130,125 +247,325 @@
 
     <h1>Семейный бюджет</h1>
 
-    <div id="period" class="period"></div>
+    <div class="period" id="period"></div>
 
-    <div class="card main-balance">
+    <div class="card main-card">
+
       <div class="label">Всего в бюджете</div>
-      <div class="amount" id="total">0 ₽</div>
 
-      <div class="label" style="margin-top:15px">
-        Доступно для расходов
-      </div>
+      <div class="total" id="total">0 ₽</div>
 
-      <div class="amount" id="available">0 ₽</div>
+      <div class="label">Доступно для расходов</div>
+
+      <div class="available" id="available">0 ₽</div>
+
     </div>
 
-    <div class="card">
-      <h3>Мои категории</h3>
 
-      <div class="category">
-        <span class="category-name">🛒 Продукты</span>
-        <span class="category-balance" id="products">0 ₽</span>
+    <h2>Мои категории</h2>
+
+    <div class="card" id="categories"></div>
+
+
+    <button
+      class="primary-button"
+      onclick="showExpenseForm()">
+      ＋ Добавить расход
+    </button>
+
+
+    <div id="expenseForm" class="card hidden" style="margin-top:16px;">
+
+      <div class="form-title">
+        Новый расход
       </div>
 
-      <div class="category">
-        <span class="category-name">🎂 Дни рождения</span>
-        <span class="category-balance" id="birthdays">0 ₽</span>
-      </div>
+      <form id="expenseFormElement">
 
-      <div class="category">
-        <span class="category-name">🎉 Выходные</span>
-        <span class="category-balance" id="weekends">0 ₽</span>
-      </div>
+        <div class="form-group">
 
-      <div class="category">
-        <span class="category-name">📦 Прочее</span>
-        <span class="category-balance" id="other">0 ₽</span>
-      </div>
+          <label for="expenseAmount">
+            Сумма, ₽
+          </label>
+
+          <input
+            id="expenseAmount"
+            type="number"
+            min="0.01"
+            max="10000000"
+            step="0.01"
+            placeholder="Например, 1500"
+            required>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="expenseDescription">
+            Что купили?
+          </label>
+
+          <input
+            id="expenseDescription"
+            type="text"
+            maxlength="150"
+            placeholder="Например, продукты в магазине"
+            required>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="expenseCategory">
+            Категория
+          </label>
+
+          <select id="expenseCategory" required>
+
+            <option value="Продукты">
+              🛒 Продукты
+            </option>
+
+            <option value="Дни рождения">
+              🎂 Дни рождения
+            </option>
+
+            <option value="Выходные">
+              🎉 Выходные
+            </option>
+
+            <option value="Прочее">
+              📦 Прочее
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <button
+          type="submit"
+          id="saveExpenseButton"
+          class="primary-button">
+
+          Сохранить расход
+
+        </button>
+
+        <button
+          type="button"
+          class="secondary-button"
+          onclick="hideExpenseForm()">
+
+          Отмена
+
+        </button>
+
+      </form>
+
+      <div id="formMessage" class="message"></div>
+
     </div>
 
-    <div class="card">
-      <h3>История расходов</h3>
-      <div id="history">Операций пока нет.</div>
-    </div>
+
+    <h2>История расходов</h2>
+
+    <div class="card" id="history"></div>
 
   </div>
 
+</div>
+
+
 <script>
+
+// ======================================================
+// НАСТРОЙКИ
+// ======================================================
 
 const API_URL =
   'https://script.google.com/macros/s/AKfycbzJBSis87N7r5eRKk9LCQJgsDL3yZ_IAog7oEtC3R7zk4Iwn8bItBEDJylQbo2atrg2dw/exec';
 
-const tg = window.Telegram?.WebApp;
+const tg = window.Telegram.WebApp;
 
-if (tg) {
-  tg.ready();
-  tg.expand();
+let currentData = null;
+let requestInProgress = false;
+
+
+// ======================================================
+// TELEGRAM
+// ======================================================
+
+tg.ready();
+tg.expand();
+
+if (tg.setHeaderColor) {
+  tg.setHeaderColor('bg_color');
 }
 
+if (tg.setBackgroundColor) {
+  tg.setBackgroundColor('bg_color');
+}
+
+
+// ======================================================
+// ФОРМАТИРОВАНИЕ СУММ
+// ======================================================
+
 function formatMoney(value) {
+
   return Number(value || 0).toLocaleString('ru-RU', {
     maximumFractionDigits: 2
   }) + ' ₽';
+
 }
 
-function setStatus(message, isError) {
-  const element = document.getElementById('status');
 
-  element.textContent = message;
-  element.className = 'status' + (isError ? ' error' : '');
-}
+// ======================================================
+// JSONP API
+// ======================================================
 
-function callApi(action, initData) {
-  return new Promise((resolve, reject) => {
+function callApi(action, extra = {}) {
+
+  return new Promise(function(resolve, reject) {
 
     const callbackName =
-      'budgetCallback_' + Date.now() + '_' +
+      'budgetCallback_' +
+      Date.now() +
+      '_' +
       Math.floor(Math.random() * 100000);
 
-    const params = new URLSearchParams({
-      api: '1',
-      action: action,
-      initData: initData,
-      callback: callbackName
+    const params = new URLSearchParams();
+
+    params.set('api', '1');
+    params.set('action', action);
+    params.set('initData', tg.initData || '');
+    params.set('callback', callbackName);
+
+    Object.keys(extra).forEach(function(key) {
+
+      params.set(key, String(extra[key]));
+
     });
 
     const script = document.createElement('script');
 
-    const timeout = setTimeout(() => {
-      cleanup();
-      reject(new Error('Сервер не ответил. Попробуй ещё раз.'));
-    }, 20000);
+    let finished = false;
 
-    function cleanup() {
+    const timeout = setTimeout(function() {
+
+      finish(new Error('Сервер не ответил. Попробуй ещё раз.'));
+
+    }, 25000);
+
+
+    function finish(error, result) {
+
+      if (finished) return;
+
+      finished = true;
+
       clearTimeout(timeout);
+
       delete window[callbackName];
-      script.remove();
-    }
 
-    window[callbackName] = function(result) {
-      cleanup();
-
-      if (!result.success) {
-        reject(new Error(result.error || 'Ошибка сервера'));
-        return;
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
       }
 
-      resolve(result);
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+
+    }
+
+
+    window[callbackName] = function(result) {
+
+      finish(null, result);
+
     };
 
     script.onerror = function() {
-      cleanup();
-      reject(new Error('Не удалось подключиться к серверу Google'));
+
+      finish(new Error('Не удалось связаться с сервером'));
+
     };
 
-    script.src = API_URL + '?' + params.toString();
+    script.src =
+      API_URL + '?' + params.toString();
 
-    document.head.appendChild(script);
+    document.body.appendChild(script);
+
   });
+
 }
 
+
+// ======================================================
+// ПОКАЗ ОШИБКИ ЗАГРУЗКИ
+// ======================================================
+
+function showLoadingError(message) {
+
+  document.getElementById('loading').textContent =
+    'Ошибка: ' + message;
+
+}
+
+
+// ======================================================
+// АВТОРИЗАЦИЯ И ЗАГРУЗКА
+// ======================================================
+
+async function startApp() {
+
+  try {
+
+    if (!tg.initData) {
+      throw new Error(
+        'Открой приложение через Telegram'
+      );
+    }
+
+    const auth = await callApi('auth');
+
+    if (!auth.success) {
+      throw new Error(auth.error);
+    }
+
+    const response = await callApi('getData');
+
+    if (!response.success) {
+      throw new Error(response.error);
+    }
+
+    renderData(response.data);
+
+    document.getElementById('loading').classList.add('hidden');
+
+    document.getElementById('app').classList.remove('hidden');
+
+  } catch (error) {
+
+    showLoadingError(error.message || String(error));
+
+  }
+
+}
+
+
+// ======================================================
+// ОТОБРАЖЕНИЕ ДАННЫХ
+// ======================================================
+
 function renderData(data) {
+
+  currentData = data;
 
   document.getElementById('period').textContent =
     'Период: ' + data.period;
@@ -259,88 +576,381 @@ function renderData(data) {
   document.getElementById('available').textContent =
     formatMoney(data.available);
 
-  document.getElementById('products').textContent =
-    formatMoney(data.categories.products.balance);
 
-  document.getElementById('birthdays').textContent =
-    formatMoney(data.categories.birthdays.balance);
+  renderCategories(data.categories);
 
-  document.getElementById('weekends').textContent =
-    formatMoney(data.categories.weekends.balance);
+  renderHistory(data.history || []);
 
-  document.getElementById('other').textContent =
-    formatMoney(data.categories.other.balance);
-
-  const history = document.getElementById('history');
-
-  history.innerHTML = '';
-
-  if (!data.history || data.history.length === 0) {
-    history.textContent = 'Операций пока нет.';
-  } else {
-    data.history.forEach(item => {
-
-      const block = document.createElement('div');
-      block.className = 'history-item';
-
-      const title = document.createElement('div');
-      title.className = 'history-title';
-      title.textContent = item.description;
-
-      const info = document.createElement('div');
-      info.className = 'history-info';
-      info.textContent = item.date + ' · ' + item.category;
-
-      const amount = document.createElement('div');
-      amount.className = 'history-amount';
-      amount.textContent = '− ' + formatMoney(item.amount);
-
-      block.appendChild(title);
-      block.appendChild(info);
-      block.appendChild(amount);
-
-      history.appendChild(block);
-    });
-  }
-
-  document.getElementById('app').classList.remove('hidden');
-
-  setStatus('Подключение успешно. Данные бюджета загружены.', false);
 }
 
-async function startApp() {
 
-  try {
+// ======================================================
+// КАТЕГОРИИ
+// ======================================================
 
-    if (!tg || !tg.initData) {
-      throw new Error(
-        'Открой бюджет через Telegram, чтобы авторизоваться.'
-      );
+function renderCategories(categories) {
+
+  const container = document.getElementById('categories');
+
+  const items = [
+
+    {
+      key: 'products',
+      name: '🛒 Продукты',
+      title: 'Продукты'
+    },
+
+    {
+      key: 'birthdays',
+      name: '🎂 Дни рождения',
+      title: 'Дни рождения'
+    },
+
+    {
+      key: 'weekends',
+      name: '🎉 Выходные',
+      title: 'Выходные'
+    },
+
+    {
+      key: 'other',
+      name: '📦 Прочее',
+      title: 'Прочее'
     }
 
-    setStatus('Проверяем авторизацию Telegram...', false);
+  ];
 
-    const auth = await callApi('auth', tg.initData);
+  container.innerHTML = '';
 
-    if (!auth.success) {
-      throw new Error('Авторизация не пройдена');
-    }
+  items.forEach(function(item) {
 
-    setStatus('Авторизация подтверждена. Загружаем бюджет...', false);
+    const category = categories[item.key] || {
+      balance: 0,
+      spent: 0
+    };
 
-    const response = await callApi('getData', tg.initData);
+    const row = document.createElement('div');
 
-    renderData(response.data);
+    row.className = 'category';
 
-  } catch (error) {
+    const left = document.createElement('div');
 
-    setStatus(
-      'Ошибка подключения:\n' + error.message,
-      true
+    const name = document.createElement('div');
+
+    name.className = 'category-name';
+
+    name.textContent = item.name;
+
+    const spent = document.createElement('div');
+
+    spent.className = 'category-spent';
+
+    spent.textContent =
+      'Потрачено: ' + formatMoney(category.spent);
+
+    left.appendChild(name);
+
+    left.appendChild(spent);
+
+
+    const balance = document.createElement('div');
+
+    balance.className = 'category-balance';
+
+    balance.textContent = formatMoney(category.balance);
+
+    row.appendChild(left);
+
+    row.appendChild(balance);
+
+    container.appendChild(row);
+
+  });
+
+}
+
+
+// ======================================================
+// ИСТОРИЯ РАСХОДОВ
+// ======================================================
+
+function renderHistory(history) {
+
+  const container = document.getElementById('history');
+
+  container.innerHTML = '';
+
+  if (!history.length) {
+
+    const empty = document.createElement('div');
+
+    empty.className = 'empty';
+
+    empty.textContent = 'Операций пока нет.';
+
+    container.appendChild(empty);
+
+    return;
+
+  }
+
+  history.forEach(function(item) {
+
+    const row = document.createElement('div');
+
+    row.className = 'history-item';
+
+
+    const top = document.createElement('div');
+
+    top.className = 'history-top';
+
+
+    const description = document.createElement('div');
+
+    description.className = 'history-description';
+
+    description.textContent = item.description;
+
+
+    const amount = document.createElement('div');
+
+    amount.className = 'history-amount';
+
+    amount.textContent = '− ' + formatMoney(item.amount);
+
+
+    top.appendChild(description);
+
+    top.appendChild(amount);
+
+
+    const info = document.createElement('div');
+
+    info.className = 'history-info';
+
+    info.textContent =
+      item.category + ' · ' + item.date;
+
+
+    row.appendChild(top);
+
+    row.appendChild(info);
+
+    container.appendChild(row);
+
+  });
+
+}
+
+
+// ======================================================
+// ПОКАЗ ФОРМЫ
+// ======================================================
+
+function showExpenseForm() {
+
+  const form = document.getElementById('expenseForm');
+
+  form.classList.remove('hidden');
+
+  document.getElementById('formMessage').className = 'message';
+
+  document.getElementById('expenseAmount').focus();
+
+  form.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+
+}
+
+
+// ======================================================
+// СКРЫТИЕ ФОРМЫ
+// ======================================================
+
+function hideExpenseForm() {
+
+  if (requestInProgress) return;
+
+  document.getElementById('expenseForm').classList.add('hidden');
+
+  document.getElementById('expenseFormElement').reset();
+
+  document.getElementById('formMessage').className = 'message';
+
+}
+
+
+// ======================================================
+// СООБЩЕНИЕ В ФОРМЕ
+// ======================================================
+
+function showFormMessage(message, type) {
+
+  const element = document.getElementById('formMessage');
+
+  element.textContent = message;
+
+  element.className = 'message ' + type;
+
+}
+
+
+// ======================================================
+// СОХРАНЕНИЕ РАСХОДА
+// ======================================================
+
+document.getElementById('expenseFormElement')
+  .addEventListener('submit', async function(event) {
+
+    event.preventDefault();
+
+    if (requestInProgress) return;
+
+    const amount = Number(
+      document.getElementById('expenseAmount').value
     );
 
-  }
-}
+    const description =
+      document.getElementById('expenseDescription').value.trim();
+
+    const category =
+      document.getElementById('expenseCategory').value;
+
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+
+      showFormMessage(
+        'Введи корректную сумму.',
+        'error'
+      );
+
+      return;
+
+    }
+
+    if (!description) {
+
+      showFormMessage(
+        'Напиши, что было куплено.',
+        'error'
+      );
+
+      return;
+
+    }
+
+    const button =
+      document.getElementById('saveExpenseButton');
+
+    requestInProgress = true;
+
+    button.disabled = true;
+
+    button.textContent = 'Сохраняем...';
+
+
+    try {
+
+      const requestId =
+        'expense_' +
+        Date.now() +
+        '_' +
+        Math.floor(Math.random() * 1000000000);
+
+      const response = await callApi('addExpense', {
+
+        amount: amount,
+
+        description: description,
+
+        category: category,
+
+        requestId: requestId
+
+      });
+
+
+      if (!response.success) {
+
+        throw new Error(response.error);
+
+      }
+
+
+      if (!response.data) {
+
+        throw new Error(
+          'Расход сохранён, но не удалось получить обновлённый бюджет. Обнови экран.'
+        );
+
+      }
+
+
+      // Обновляем экран
+
+      renderData(response.data);
+
+
+      // Очищаем форму
+
+      document.getElementById('expenseFormElement').reset();
+
+      document.getElementById('expenseForm').classList.add('hidden');
+
+
+      // Уведомляем пользователя
+
+      if (tg.HapticFeedback) {
+        tg.HapticFeedback.notificationOccurred('success');
+      }
+
+      tg.showPopup({
+
+        title: 'Расход сохранён',
+
+        message:
+          'Сумма: ' + formatMoney(amount) +
+          '\nКатегория: ' + category,
+
+        buttons: [
+          {
+            type: 'ok'
+          }
+        ]
+
+      });
+
+
+    } catch (error) {
+
+      showFormMessage(
+        error.message || String(error),
+        'error'
+      );
+
+      if (tg.HapticFeedback) {
+        tg.HapticFeedback.notificationOccurred('error');
+      }
+
+    } finally {
+
+      requestInProgress = false;
+
+      button.disabled = false;
+
+      button.textContent = 'Сохранить расход';
+
+    }
+
+  });
+
+
+// ======================================================
+// ЗАПУСК
+// ======================================================
 
 startApp();
 
