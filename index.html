@@ -134,6 +134,26 @@
       margin-top: 10px;
     }
 
+    .secondary-button:disabled {
+      opacity: 0.5;
+    }
+
+    .danger-button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      background: #ffe5e5;
+      color: #a00000;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .danger-button:disabled {
+      opacity: 0.5;
+    }
+
     .form-group {
       margin-bottom: 15px;
     }
@@ -207,6 +227,7 @@
       font-size: 14px;
       margin-top: 12px;
       display: none;
+      overflow-wrap: anywhere;
     }
 
     .message.error {
@@ -232,6 +253,64 @@
       font-weight: 700;
       margin-bottom: 18px;
     }
+
+    /* БАНКОВСКИЕ УВЕДОМЛЕНИЯ */
+
+    .pending-card {
+      border: 1px solid var(--tg-theme-hint-color, #ddd);
+      border-radius: 13px;
+      padding: 15px;
+      margin-bottom: 13px;
+    }
+
+    .pending-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .pending-title {
+      font-size: 16px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+      margin-bottom: 6px;
+    }
+
+    .pending-date {
+      font-size: 12px;
+      color: var(--tg-theme-hint-color, #888);
+      margin-bottom: 12px;
+    }
+
+    .pending-notification {
+      background: var(--tg-theme-bg-color, #f3f4f6);
+      border-radius: 9px;
+      padding: 11px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .pending-notification-title {
+      font-size: 12px;
+      color: var(--tg-theme-hint-color, #888);
+      margin-bottom: 5px;
+    }
+
+    .pending-card .form-group {
+      margin-bottom: 12px;
+    }
+
+    .pending-card .primary-button,
+    .pending-card .secondary-button,
+    .pending-card .danger-button {
+      margin-top: 8px;
+    }
+
+    .pending-status-message {
+      min-height: 0;
+    }
+
   </style>
 </head>
 
@@ -265,6 +344,13 @@
     <h2>Мои категории</h2>
 
     <div class="card" id="categories"></div>
+
+
+    <!-- БАНКОВСКИЕ УВЕДОМЛЕНИЯ -->
+
+    <h2>Ожидают подтверждения</h2>
+
+    <div class="card" id="pending"></div>
 
 
     <button
@@ -392,6 +478,7 @@ const tg = window.Telegram.WebApp;
 
 let currentData = null;
 let requestInProgress = false;
+let pendingRequests = {};
 
 
 // ======================================================
@@ -579,6 +666,8 @@ function renderData(data) {
 
   renderCategories(data.categories);
 
+  renderPending(data.pending || []);
+
   renderHistory(data.history || []);
 
 }
@@ -666,6 +755,696 @@ function renderCategories(categories) {
     container.appendChild(row);
 
   });
+
+}
+
+
+// ======================================================
+// БАНКОВСКИЕ УВЕДОМЛЕНИЯ
+// ======================================================
+
+function renderPending(pending) {
+
+  const container = document.getElementById('pending');
+
+  container.innerHTML = '';
+
+  if (!pending.length) {
+
+    const empty = document.createElement('div');
+
+    empty.className = 'empty';
+
+    empty.textContent =
+      'Нет операций, ожидающих подтверждения.';
+
+    container.appendChild(empty);
+
+    return;
+
+  }
+
+
+  pending.forEach(function(operation) {
+
+    const card = document.createElement('div');
+
+    card.className = 'pending-card';
+
+
+    // Название операции
+
+    const title = document.createElement('div');
+
+    title.className = 'pending-title';
+
+    title.textContent =
+      operation.description || 'Банковская покупка';
+
+
+    // Дата
+
+    const date = document.createElement('div');
+
+    date.className = 'pending-date';
+
+    date.textContent =
+      operation.date || 'Дата не указана';
+
+
+    // Исходный текст уведомления
+
+    const notificationTitle = document.createElement('div');
+
+    notificationTitle.className = 'pending-notification-title';
+
+    notificationTitle.textContent =
+      'Текст банковского уведомления';
+
+
+    const notification = document.createElement('div');
+
+    notification.className = 'pending-notification';
+
+    notification.textContent =
+      operation.rawText || 'Текст уведомления отсутствует';
+
+
+    // Поле суммы
+
+    const amountGroup = document.createElement('div');
+
+    amountGroup.className = 'form-group';
+
+    const amountLabel = document.createElement('label');
+
+    amountLabel.textContent = 'Сумма, ₽';
+
+    const amountInput = document.createElement('input');
+
+    amountInput.type = 'number';
+
+    amountInput.min = '0.01';
+
+    amountInput.max = '10000000';
+
+    amountInput.step = '0.01';
+
+    amountInput.value =
+      Number(operation.amount) > 0
+        ? operation.amount
+        : '';
+
+    amountInput.placeholder = 'Укажи сумму покупки';
+
+
+    amountGroup.appendChild(amountLabel);
+
+    amountGroup.appendChild(amountInput);
+
+
+    // Поле категории
+
+    const categoryGroup = document.createElement('div');
+
+    categoryGroup.className = 'form-group';
+
+    const categoryLabel = document.createElement('label');
+
+    categoryLabel.textContent = 'Категория';
+
+    const categorySelect = document.createElement('select');
+
+    const categoryOptions = [
+
+      {
+        value: 'Продукты',
+        text: '🛒 Продукты'
+      },
+
+      {
+        value: 'Дни рождения',
+        text: '🎂 Дни рождения'
+      },
+
+      {
+        value: 'Выходные',
+        text: '🎉 Выходные'
+      },
+
+      {
+        value: 'Прочее',
+        text: '📦 Прочее'
+      }
+
+    ];
+
+    categoryOptions.forEach(function(option) {
+
+      const element = document.createElement('option');
+
+      element.value = option.value;
+
+      element.textContent = option.text;
+
+      categorySelect.appendChild(element);
+
+    });
+
+    categorySelect.value =
+      categoryOptions.some(function(item) {
+        return item.value === operation.category;
+      })
+        ? operation.category
+        : 'Прочее';
+
+
+    categoryGroup.appendChild(categoryLabel);
+
+    categoryGroup.appendChild(categorySelect);
+
+
+    // Сообщение операции
+
+    const message = document.createElement('div');
+
+    message.className = 'message pending-status-message';
+
+
+    // Кнопка сохранения
+
+    const saveButton = document.createElement('button');
+
+    saveButton.type = 'button';
+
+    saveButton.className = 'secondary-button';
+
+    saveButton.textContent = 'Сохранить изменения';
+
+
+    // Кнопка подтверждения
+
+    const confirmButton = document.createElement('button');
+
+    confirmButton.type = 'button';
+
+    confirmButton.className = 'primary-button';
+
+    confirmButton.textContent = '✓ Подтвердить расход';
+
+
+    // Кнопка отмены
+
+    const cancelButton = document.createElement('button');
+
+    cancelButton.type = 'button';
+
+    cancelButton.className = 'danger-button';
+
+    cancelButton.textContent = 'Отменить операцию';
+
+
+    // Собираем карточку
+
+    card.appendChild(title);
+
+    card.appendChild(date);
+
+    card.appendChild(notificationTitle);
+
+    card.appendChild(notification);
+
+    card.appendChild(amountGroup);
+
+    card.appendChild(categoryGroup);
+
+    card.appendChild(message);
+
+    card.appendChild(saveButton);
+
+    card.appendChild(confirmButton);
+
+    card.appendChild(cancelButton);
+
+
+    container.appendChild(card);
+
+
+    // Сохранение изменений
+
+    saveButton.addEventListener('click', async function() {
+
+      await savePendingOperation(
+        operation.id,
+        amountInput,
+        categorySelect,
+        message,
+        saveButton,
+        confirmButton,
+        cancelButton
+      );
+
+    });
+
+
+    // Подтверждение расхода
+
+    confirmButton.addEventListener('click', async function() {
+
+      await confirmPendingOperation(
+        operation.id,
+        amountInput,
+        categorySelect,
+        message,
+        saveButton,
+        confirmButton,
+        cancelButton
+      );
+
+    });
+
+
+    // Отмена операции
+
+    cancelButton.addEventListener('click', async function() {
+
+      await cancelPendingOperation(
+        operation.id,
+        message,
+        saveButton,
+        confirmButton,
+        cancelButton
+      );
+
+    });
+
+  });
+
+}
+
+
+// ======================================================
+// БЛОКИРОВКА КНОПОК ОПЕРАЦИИ
+// ======================================================
+
+function setPendingButtonsDisabled(
+  operationId,
+  disabled,
+  saveButton,
+  confirmButton,
+  cancelButton
+) {
+
+  pendingRequests[operationId] = disabled;
+
+  saveButton.disabled = disabled;
+
+  confirmButton.disabled = disabled;
+
+  cancelButton.disabled = disabled;
+
+}
+
+
+// ======================================================
+// СООБЩЕНИЕ В КАРТОЧКЕ ОПЕРАЦИИ
+// ======================================================
+
+function showPendingMessage(element, message, type) {
+
+  element.textContent = message;
+
+  element.className = 'message pending-status-message ' + type;
+
+}
+
+
+// ======================================================
+// ПРОВЕРКА СУММЫ ОЖИДАЮЩЕЙ ОПЕРАЦИИ
+// ======================================================
+
+function getPendingAmount(input) {
+
+  const amount = Number(input.value);
+
+  if (
+    !Number.isFinite(amount) ||
+    amount <= 0 ||
+    amount > 10000000
+  ) {
+
+    throw new Error(
+      'Введи корректную сумму больше нуля.'
+    );
+
+  }
+
+  return amount;
+
+}
+
+
+// ======================================================
+// СОХРАНЕНИЕ ИЗМЕНЕНИЙ ОЖИДАЮЩЕЙ ОПЕРАЦИИ
+// ======================================================
+
+async function savePendingOperation(
+  operationId,
+  amountInput,
+  categorySelect,
+  message,
+  saveButton,
+  confirmButton,
+  cancelButton
+) {
+
+  if (pendingRequests[operationId]) return;
+
+  let amount;
+
+  try {
+
+    amount = getPendingAmount(amountInput);
+
+  } catch (error) {
+
+    showPendingMessage(
+      message,
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+  const category = categorySelect.value;
+
+  setPendingButtonsDisabled(
+    operationId,
+    true,
+    saveButton,
+    confirmButton,
+    cancelButton
+  );
+
+  saveButton.textContent = 'Сохраняем...';
+
+  try {
+
+    const response = await callApi('updatePending', {
+
+      operationId: operationId,
+
+      amount: amount,
+
+      category: category
+
+    });
+
+    if (!response.success) {
+
+      throw new Error(response.error);
+
+    }
+
+    if (!response.data) {
+
+      throw new Error(
+        'Изменения сохранены, но не удалось обновить экран.'
+      );
+
+    }
+
+    renderData(response.data);
+
+    if (tg.HapticFeedback) {
+      tg.HapticFeedback.notificationOccurred('success');
+    }
+
+  } catch (error) {
+
+    showPendingMessage(
+      message,
+      error.message || String(error),
+      'error'
+    );
+
+  } finally {
+
+    pendingRequests[operationId] = false;
+
+    saveButton.textContent = 'Сохранить изменения';
+
+    saveButton.disabled = false;
+
+    confirmButton.disabled = false;
+
+    cancelButton.disabled = false;
+
+  }
+
+}
+
+
+// ======================================================
+// ПОДТВЕРЖДЕНИЕ ОЖИДАЮЩЕЙ ОПЕРАЦИИ
+// ======================================================
+
+async function confirmPendingOperation(
+  operationId,
+  amountInput,
+  categorySelect,
+  message,
+  saveButton,
+  confirmButton,
+  cancelButton
+) {
+
+  if (pendingRequests[operationId]) return;
+
+  let amount;
+
+  try {
+
+    amount = getPendingAmount(amountInput);
+
+  } catch (error) {
+
+    showPendingMessage(
+      message,
+      error.message,
+      'error'
+    );
+
+    return;
+
+  }
+
+  const category = categorySelect.value;
+
+  const confirmed = window.confirm(
+    'Подтвердить расход ' +
+    formatMoney(amount) +
+    ' из категории «' +
+    category +
+    '»?'
+  );
+
+  if (!confirmed) return;
+
+
+  setPendingButtonsDisabled(
+    operationId,
+    true,
+    saveButton,
+    confirmButton,
+    cancelButton
+  );
+
+  confirmButton.textContent = 'Подтверждаем...';
+
+  try {
+
+    // СНАЧАЛА СОХРАНЯЕМ ИЗМЕНЁННУЮ СУММУ И КАТЕГОРИЮ
+
+    const updateResponse = await callApi('updatePending', {
+
+      operationId: operationId,
+
+      amount: amount,
+
+      category: category
+
+    });
+
+    if (!updateResponse.success) {
+
+      throw new Error(updateResponse.error);
+
+    }
+
+
+    // ТОЛЬКО ПОСЛЕ СОХРАНЕНИЯ ПОДТВЕРЖДАЕМ РАСХОД
+
+    const confirmResponse = await callApi('confirmPending', {
+
+      operationId: operationId,
+
+      category: category
+
+    });
+
+    if (!confirmResponse.success) {
+
+      throw new Error(confirmResponse.error);
+
+    }
+
+    if (!confirmResponse.data) {
+
+      throw new Error(
+        'Расход обработан, но не удалось обновить экран. Перезагрузи приложение.'
+      );
+
+    }
+
+
+    renderData(confirmResponse.data);
+
+    if (tg.HapticFeedback) {
+      tg.HapticFeedback.notificationOccurred('success');
+    }
+
+    if (tg.showPopup) {
+
+      tg.showPopup({
+
+        title: 'Расход подтверждён',
+
+        message:
+          'Сумма: ' + formatMoney(amount) +
+          '\nКатегория: ' + category,
+
+        buttons: [
+          {
+            type: 'ok'
+          }
+        ]
+
+      });
+
+    }
+
+  } catch (error) {
+
+    showPendingMessage(
+      message,
+      error.message || String(error),
+      'error'
+    );
+
+    if (tg.HapticFeedback) {
+      tg.HapticFeedback.notificationOccurred('error');
+    }
+
+  } finally {
+
+    pendingRequests[operationId] = false;
+
+    confirmButton.textContent = '✓ Подтвердить расход';
+
+    saveButton.disabled = false;
+
+    confirmButton.disabled = false;
+
+    cancelButton.disabled = false;
+
+  }
+
+}
+
+
+// ======================================================
+// ОТМЕНА ОЖИДАЮЩЕЙ ОПЕРАЦИИ
+// ======================================================
+
+async function cancelPendingOperation(
+  operationId,
+  message,
+  saveButton,
+  confirmButton,
+  cancelButton
+) {
+
+  if (pendingRequests[operationId]) return;
+
+  const confirmed = window.confirm(
+    'Отменить это банковское уведомление?\n\nДеньги из бюджета списаны не будут.'
+  );
+
+  if (!confirmed) return;
+
+
+  setPendingButtonsDisabled(
+    operationId,
+    true,
+    saveButton,
+    confirmButton,
+    cancelButton
+  );
+
+  cancelButton.textContent = 'Отменяем...';
+
+  try {
+
+    const response = await callApi('cancelPending', {
+
+      operationId: operationId
+
+    });
+
+    if (!response.success) {
+
+      throw new Error(response.error);
+
+    }
+
+    if (!response.data) {
+
+      throw new Error(
+        'Операция отменена, но не удалось обновить экран.'
+      );
+
+    }
+
+    renderData(response.data);
+
+    if (tg.HapticFeedback) {
+      tg.HapticFeedback.notificationOccurred('success');
+    }
+
+  } catch (error) {
+
+    showPendingMessage(
+      message,
+      error.message || String(error),
+      'error'
+    );
+
+  } finally {
+
+    pendingRequests[operationId] = false;
+
+    cancelButton.textContent = 'Отменить операцию';
+
+    saveButton.disabled = false;
+
+    confirmButton.disabled = false;
+
+    cancelButton.disabled = false;
+
+  }
 
 }
 
@@ -889,19 +1668,13 @@ document.getElementById('expenseFormElement')
       }
 
 
-      // Обновляем экран
-
       renderData(response.data);
 
-
-      // Очищаем форму
 
       document.getElementById('expenseFormElement').reset();
 
       document.getElementById('expenseForm').classList.add('hidden');
 
-
-      // Уведомляем пользователя
 
       if (tg.HapticFeedback) {
         tg.HapticFeedback.notificationOccurred('success');
