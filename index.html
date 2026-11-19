@@ -3,10 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Семейный бюджет 2.0</title>
+  <title>Проверка Telegram</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f4f7;
+      padding: 20px;
+      color: #222;
+    }
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      margin-top: 20px;
+      line-height: 1.7;
+    }
+    h2 { margin-top: 0; }
+  </style>
 </head>
 <body>
-  <h1>Семейный бюджет 2.0</h1>
-  <p>GitHub Pages работает!</p>
+  <h2>Проверка Telegram Mini App</h2>
+  <div class="box" id="result">Проверяем...</div>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+      tg.ready();
+      tg.expand();
+
+      const user = tg.initDataUnsafe?.user;
+
+      document.getElementById('result').innerHTML = `
+        SDK: Найден<br>
+        Версия: ${tg.version}<br>
+        Платформа: ${tg.platform}<br>
+        Длина initData: ${tg.initData.length}<br>
+        Пользователь: ${user ? 'Обнаружен' : 'Не обнаружен'}<br>
+        Telegram ID: ${user ? user.id : 'Нет данных'}
+      `;
+    } else {
+      document.getElementById('result').innerHTML =
+        'Telegram WebApp SDK не найден';
+    }
+  </script>
 </body>
 </html>
