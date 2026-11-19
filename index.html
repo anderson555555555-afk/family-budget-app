@@ -5,13 +5,23 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-  <meta name="referrer" content="no-referrer">
-
   <title>Семейный бюджет</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
+    :root {
+      --bg: var(--tg-theme-bg-color, #f4f5f7);
+      --card: var(--tg-theme-secondary-bg-color, #ffffff);
+      --text: var(--tg-theme-text-color, #202124);
+      --hint: var(--tg-theme-hint-color, #777777);
+      --accent: var(--tg-theme-button-color, #2481cc);
+      --danger: #dc3545;
+      --warning: #e5a000;
+      --green: #239b56;
+      --border: rgba(128,128,128,.18);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -19,15 +29,14 @@
     body {
       margin: 0;
       padding: 16px;
-      padding-bottom: 35px;
-      background: var(--tg-theme-bg-color, #f3f4f6);
-      color: var(--tg-theme-text-color, #222);
+      background: var(--bg);
+      color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
     }
 
     .container {
-      max-width: 500px;
-      margin: 0 auto;
+      max-width: 520px;
+      margin: auto;
     }
 
     h1 {
@@ -35,53 +44,46 @@
       margin: 8px 0 5px;
     }
 
-    .period {
-      color: var(--tg-theme-hint-color, #888);
-      font-size: 14px;
-      margin-bottom: 20px;
+    h2 {
+      font-size: 18px;
+      margin: 0 0 14px;
+    }
+
+    .subtitle {
+      color: var(--hint);
+      font-size: 13px;
+      margin-bottom: 18px;
     }
 
     .card {
-      background: var(--tg-theme-secondary-bg-color, #fff);
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 14px;
-    }
-
-    .main-card {
-      background: #246bfd;
-      color: white;
-    }
-
-    .label {
-      font-size: 14px;
-      opacity: 0.8;
-      margin-bottom: 7px;
+      background: var(--card);
+      border-radius: 17px;
+      padding: 17px;
+      margin-bottom: 13px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
     }
 
     .total {
-      font-size: 30px;
-      font-weight: 700;
-      margin-bottom: 15px;
+      font-size: 32px;
+      font-weight: 800;
+      margin: 8px 0;
     }
 
-    .available {
-      font-size: 25px;
-      font-weight: 700;
+    .muted {
+      color: var(--hint);
+      font-size: 13px;
     }
 
-    h2 {
-      font-size: 19px;
-      margin: 22px 0 12px;
-    }
-
-    .category {
+    .row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      padding: 13px 0;
-      border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
+      gap: 10px;
+    }
+
+    .category {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
     }
 
     .category:last-child {
@@ -90,378 +92,386 @@
 
     .category-name {
       font-weight: 600;
-      font-size: 15px;
-    }
-
-    .category-spent {
-      color: var(--tg-theme-hint-color, #888);
-      font-size: 12px;
-      margin-top: 4px;
     }
 
     .category-balance {
       font-weight: 700;
-      font-size: 17px;
       white-space: nowrap;
     }
 
-    .primary-button {
-      width: 100%;
-      border: none;
-      border-radius: 14px;
-      padding: 16px;
-      background: var(--tg-theme-button-color, #2481cc);
-      color: var(--tg-theme-button-text-color, white);
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
+    .progress {
+      height: 7px;
+      background: rgba(128,128,128,.18);
+      border-radius: 10px;
+      overflow: hidden;
       margin-top: 8px;
     }
 
-    .primary-button:disabled {
-      opacity: 0.5;
+    .progress > div {
+      height: 100%;
+      background: var(--green);
+      border-radius: 10px;
     }
 
-    .secondary-button {
-      width: 100%;
-      border: none;
+    .warning {
+      padding: 13px;
       border-radius: 12px;
-      padding: 14px;
-      background: var(--tg-theme-secondary-bg-color, #ddd);
-      color: var(--tg-theme-text-color, #222);
-      font-size: 15px;
-      cursor: pointer;
       margin-top: 10px;
-    }
-
-    .secondary-button:disabled {
-      opacity: 0.5;
-    }
-
-    .danger-button {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      background: #ffe5e5;
-      color: #a00000;
-      font-size: 15px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .danger-button:disabled {
-      opacity: 0.5;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
       font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 7px;
+      line-height: 1.4;
+    }
+
+    .warning.yellow {
+      background: rgba(229,160,0,.16);
+      border: 1px solid rgba(229,160,0,.4);
+    }
+
+    .warning.red {
+      background: rgba(220,53,69,.14);
+      border: 1px solid rgba(220,53,69,.4);
+    }
+
+    .warning.green {
+      background: rgba(35,155,86,.12);
+      border: 1px solid rgba(35,155,86,.3);
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      width: 100%;
+      font-size: 15px;
+      font-weight: 650;
+      cursor: pointer;
+      color: white;
+      background: var(--accent);
+      margin-top: 9px;
+    }
+
+    button.secondary {
+      color: var(--text);
+      background: rgba(128,128,128,.14);
+    }
+
+    button.danger {
+      background: var(--danger);
+    }
+
+    button.small {
+      width: auto;
+      padding: 9px 12px;
+      font-size: 13px;
+      margin: 0;
     }
 
     input, select {
       width: 100%;
       padding: 14px;
+      margin: 7px 0 12px;
       border-radius: 11px;
-      border: 1px solid var(--tg-theme-hint-color, #ccc);
-      background: var(--tg-theme-bg-color, white);
-      color: var(--tg-theme-text-color, #222);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
       font-size: 16px;
-      outline: none;
     }
 
-    input:focus, select:focus {
-      border-color: var(--tg-theme-button-color, #2481cc);
+    label {
+      font-size: 13px;
+      color: var(--hint);
     }
 
-    .history-item {
-      padding: 13px 0;
-      border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
+    .hidden {
+      display: none !important;
     }
 
-    .history-item:last-child {
+    .operation {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .operation:last-child {
       border-bottom: none;
     }
 
-    .history-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
+    .operation-title {
       font-weight: 600;
-    }
-
-    .history-description {
       overflow-wrap: anywhere;
     }
 
-    .history-amount {
-      white-space: nowrap;
-    }
-
-    .history-info {
-      color: var(--tg-theme-hint-color, #888);
+    .operation-meta {
+      color: var(--hint);
       font-size: 12px;
       margin-top: 5px;
     }
 
-    .empty {
-      color: var(--tg-theme-hint-color, #888);
-      text-align: center;
-      padding: 18px 0;
-      font-size: 14px;
+    .operation-amount {
+      font-weight: 700;
+      white-space: nowrap;
     }
 
-    .hidden {
-      display: none;
-    }
-
-    .message {
+    .pending {
+      border: 1px solid rgba(229,160,0,.4);
+      border-radius: 12px;
       padding: 12px;
-      border-radius: 10px;
-      font-size: 14px;
-      margin-top: 12px;
-      display: none;
-      overflow-wrap: anywhere;
+      margin-bottom: 10px;
     }
 
-    .message.error {
-      display: block;
-      background: #ffe5e5;
-      color: #a00000;
+    .pending-actions {
+      display: flex;
+      gap: 7px;
+      margin-top: 10px;
     }
 
-    .message.success {
-      display: block;
-      background: #e0f5e7;
-      color: #126b32;
+    .pending-actions button {
+      flex: 1;
+      padding: 10px 5px;
+      font-size: 13px;
     }
 
-    .loading {
+    .birthday-item {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .birthday-item:last-child {
+      border-bottom: none;
+    }
+
+    .empty {
+      color: var(--hint);
+      font-size: 13px;
+      padding: 8px 0;
+    }
+
+    .loader {
       text-align: center;
       padding: 35px 10px;
-      color: var(--tg-theme-hint-color, #888);
+      color: var(--hint);
     }
 
-    .form-title {
-      font-size: 19px;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    /* БАНКОВСКИЕ УВЕДОМЛЕНИЯ */
-
-    .pending-card {
-      border: 1px solid var(--tg-theme-hint-color, #ddd);
-      border-radius: 13px;
-      padding: 15px;
-      margin-bottom: 13px;
-    }
-
-    .pending-card:last-child {
-      margin-bottom: 0;
-    }
-
-    .pending-title {
-      font-size: 16px;
-      font-weight: 700;
-      overflow-wrap: anywhere;
-      margin-bottom: 6px;
-    }
-
-    .pending-date {
-      font-size: 12px;
-      color: var(--tg-theme-hint-color, #888);
-      margin-bottom: 12px;
-    }
-
-    .pending-notification {
-      background: var(--tg-theme-bg-color, #f3f4f6);
-      border-radius: 9px;
-      padding: 11px;
-      margin-bottom: 14px;
-      font-size: 13px;
-      line-height: 1.45;
-      overflow-wrap: anywhere;
+    .error {
+      color: var(--danger);
       white-space: pre-wrap;
+      font-size: 14px;
     }
 
-    .pending-notification-title {
-      font-size: 12px;
-      color: var(--tg-theme-hint-color, #888);
-      margin-bottom: 5px;
-    }
-
-    .pending-card .form-group {
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
       margin-bottom: 12px;
     }
 
-    .pending-card .primary-button,
-    .pending-card .secondary-button,
-    .pending-card .danger-button {
-      margin-top: 8px;
+    .section-title h2 {
+      margin: 0;
     }
 
-    .pending-status-message {
-      min-height: 0;
+    .amount-large {
+      font-size: 25px;
+      font-weight: 800;
     }
-
   </style>
 </head>
 
 <body>
-
 <div class="container">
 
-  <div id="loading" class="loading">
-    Подключаемся к семейному бюджету...
+  <div id="loading" class="loader">
+    Загружаем семейный бюджет…
   </div>
 
   <div id="app" class="hidden">
 
     <h1>Семейный бюджет</h1>
+    <div id="period" class="subtitle"></div>
 
-    <div class="period" id="period"></div>
+    <!-- ОБЩИЙ БАЛАНС -->
 
-    <div class="card main-card">
+    <div class="card">
+      <div class="muted">Бюджет текущего периода</div>
+      <div id="total" class="total">0 ₽</div>
 
-      <div class="label">Всего в бюджете</div>
+      <div class="row">
+        <span class="muted">Остаток продуктов и прочего</span>
+        <strong id="available">0 ₽</strong>
+      </div>
 
-      <div class="total" id="total">0 ₽</div>
-
-      <div class="label">Доступно для расходов</div>
-
-      <div class="available" id="available">0 ₽</div>
-
+      <button onclick="showBudgetForm()">
+        + Добавить новый бюджет
+      </button>
     </div>
 
+    <!-- НЕДЕЛЯ -->
 
-    <h2>Мои категории</h2>
+    <div class="card">
+      <h2>Текущая неделя</h2>
 
-    <div class="card" id="categories"></div>
+      <div class="muted">Остаток продуктов на неделю</div>
+      <div id="weekBalance" class="amount-large">—</div>
 
+      <div class="muted" id="weekSpent"></div>
+
+      <div id="weekWarning"></div>
+
+      <div class="muted" style="margin-top:12px">
+        Приложение показывает недельный остаток и предупреждает,
+        если резерв следующей недели становится слишком маленьким.
+      </div>
+    </div>
+
+    <!-- КАТЕГОРИИ -->
+
+    <div class="card">
+      <h2>Остатки по категориям</h2>
+      <div id="categories"></div>
+    </div>
+
+    <!-- ДНИ РОЖДЕНИЯ -->
+
+    <div id="birthdaysCard" class="card hidden">
+      <h2>Дни рождения в этом периоде</h2>
+
+      <div id="birthdayList"></div>
+
+      <div class="row" style="margin-top:12px">
+        <span class="muted">Общий резерв</span>
+        <strong id="birthdayReserve"></strong>
+      </div>
+    </div>
 
     <!-- БАНКОВСКИЕ УВЕДОМЛЕНИЯ -->
 
-    <h2>Ожидают подтверждения</h2>
-
-    <div class="card" id="pending"></div>
-
-
-    <button
-      class="primary-button"
-      onclick="showExpenseForm()">
-      ＋ Добавить расход
-    </button>
-
-
-    <div id="expenseForm" class="card hidden" style="margin-top:16px;">
-
-      <div class="form-title">
-        Новый расход
+    <div class="card">
+      <div class="section-title">
+        <h2>Банковские уведомления</h2>
+        <button class="small secondary" onclick="refreshData()">
+          Обновить
+        </button>
       </div>
 
-      <form id="expenseFormElement">
-
-        <div class="form-group">
-
-          <label for="expenseAmount">
-            Сумма, ₽
-          </label>
-
-          <input
-            id="expenseAmount"
-            type="number"
-            min="0.01"
-            max="10000000"
-            step="0.01"
-            placeholder="Например, 1500"
-            required>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="expenseDescription">
-            Что купили?
-          </label>
-
-          <input
-            id="expenseDescription"
-            type="text"
-            maxlength="150"
-            placeholder="Например, продукты в магазине"
-            required>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="expenseCategory">
-            Категория
-          </label>
-
-          <select id="expenseCategory" required>
-
-            <option value="Продукты">
-              🛒 Продукты
-            </option>
-
-            <option value="Дни рождения">
-              🎂 Дни рождения
-            </option>
-
-            <option value="Выходные">
-              🎉 Выходные
-            </option>
-
-            <option value="Прочее">
-              📦 Прочее
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <button
-          type="submit"
-          id="saveExpenseButton"
-          class="primary-button">
-
-          Сохранить расход
-
-        </button>
-
-        <button
-          type="button"
-          class="secondary-button"
-          onclick="hideExpenseForm()">
-
-          Отмена
-
-        </button>
-
-      </form>
-
-      <div id="formMessage" class="message"></div>
-
+      <div id="pendingList"></div>
     </div>
 
+    <!-- РАСХОДЫ -->
 
-    <h2>История расходов</h2>
+    <div class="card">
+      <h2>Новый расход</h2>
 
-    <div class="card" id="history"></div>
+      <div id="expenseMenu">
+        <button onclick="showExpenseForm('Продукты')">
+          Продукты на неделю
+        </button>
+
+        <button onclick="showExpenseForm('Прочее')">
+          Прочее на неделю
+        </button>
+
+        <button class="secondary" onclick="showOtherMenu()">
+          Это другое
+        </button>
+      </div>
+
+      <div id="otherMenu" class="hidden">
+        <button onclick="showExpenseForm('Дни рождения')">
+          На дни рождения
+        </button>
+
+        <button onclick="showExpenseForm('Выходные')">
+          На выходные
+        </button>
+
+        <button class="secondary" onclick="showExpenseForm('Вне бюджета')">
+          Вне бюджета
+        </button>
+
+        <button class="secondary" onclick="backToExpenseMenu()">
+          Назад
+        </button>
+      </div>
+
+      <div id="expenseForm" class="hidden">
+        <h2 id="expenseTitle"></h2>
+
+        <label>Сумма, ₽</label>
+        <input
+          id="expenseAmount"
+          type="number"
+          inputmode="decimal"
+          min="0.01"
+          step="0.01"
+          placeholder="Например, 1250"
+        >
+
+        <label>Описание</label>
+        <input
+          id="expenseDescription"
+          type="text"
+          maxlength="150"
+          placeholder="На что потрачены деньги"
+        >
+
+        <div id="sourceBlock" class="hidden">
+          <label>Источник денег</label>
+          <input
+            id="expenseSource"
+            type="text"
+            maxlength="100"
+            placeholder="Например, личные деньги"
+          >
+        </div>
+
+        <button onclick="saveExpense()">
+          Сохранить расход
+        </button>
+
+        <button class="secondary" onclick="backToExpenseMenu()">
+          Отмена
+        </button>
+      </div>
+    </div>
+
+    <!-- НОВЫЙ БЮДЖЕТ -->
+
+    <div id="budgetForm" class="card hidden">
+      <h2>Новый бюджет</h2>
+
+      <div class="muted">
+        Введи сумму, которая осталась после остальных расходов.
+        Приложение прибавит остатки прошлого периода и заново
+        распределит общую сумму по категориям.
+      </div>
+
+      <label>Сумма, ₽</label>
+      <input
+        id="budgetAmount"
+        type="number"
+        inputmode="decimal"
+        min="0.01"
+        step="0.01"
+        placeholder="Например, 25000"
+      >
+
+      <button onclick="saveBudget()">
+        Создать новый бюджет
+      </button>
+
+      <button class="secondary" onclick="hideBudgetForm()">
+        Отмена
+      </button>
+    </div>
+
+    <!-- ИСТОРИЯ -->
+
+    <div class="card">
+      <h2>История операций</h2>
+      <div id="history"></div>
+    </div>
+
+    <div id="message"></div>
 
   </div>
-
 </div>
 
 
@@ -471,42 +481,53 @@
 // НАСТРОЙКИ
 // ======================================================
 
-const API_URL =
-  'https://script.google.com/macros/s/AKfycbzJBSis87N7r5eRKk9LCQJgsDL3yZ_IAog7oEtC3R7zk4Iwn8bItBEDJylQbo2atrg2dw/exec';
+const API_URL = 'ВСТАВЬ_АДРЕС_СВОЕГО_ПРИЛОЖЕНИЯ';
 
-const tg = window.Telegram.WebApp;
+const tg = window.Telegram
+  ? window.Telegram.WebApp
+  : null;
 
-let currentData = null;
-let requestInProgress = false;
-let pendingRequests = {};
+let appData = null;
+let currentCategory = '';
+let currentExpenseType = 'Расход';
 
 
 // ======================================================
-// TELEGRAM
+// ЗАПУСК
 // ======================================================
 
-tg.ready();
-tg.expand();
-
-if (tg.setHeaderColor) {
-  tg.setHeaderColor('bg_color');
+if (tg) {
+  tg.ready();
+  tg.expand();
 }
 
-if (tg.setBackgroundColor) {
-  tg.setBackgroundColor('bg_color');
-}
+startApp();
 
+function startApp() {
+  if (
+    !API_URL ||
+    API_URL.indexOf('https://script.google.com/') !== 0
+  ) {
+    showFatalError(
+      'Не указан адрес Google Apps Script в переменной API_URL.'
+    );
+    return;
+  }
 
-// ======================================================
-// ФОРМАТИРОВАНИЕ СУММ
-// ======================================================
+  if (!tg || !tg.initData) {
+    showFatalError(
+      'Открой приложение через Telegram.'
+    );
+    return;
+  }
 
-function formatMoney(value) {
-
-  return Number(value || 0).toLocaleString('ru-RU', {
-    maximumFractionDigits: 2
-  }) + ' ₽';
-
+  callApi('auth')
+    .then(function() {
+      return refreshData();
+    })
+    .catch(function(error) {
+      showFatalError(error.message || String(error));
+    });
 }
 
 
@@ -514,10 +535,10 @@ function formatMoney(value) {
 // JSONP API
 // ======================================================
 
-function callApi(action, extra = {}) {
+function callApi(action, extra) {
+  extra = extra || {};
 
   return new Promise(function(resolve, reject) {
-
     const callbackName =
       'budgetCallback_' +
       Date.now() +
@@ -528,148 +549,119 @@ function callApi(action, extra = {}) {
 
     params.set('api', '1');
     params.set('action', action);
-    params.set('initData', tg.initData || '');
+    params.set('initData', tg.initData);
     params.set('callback', callbackName);
 
     Object.keys(extra).forEach(function(key) {
-
       params.set(key, String(extra[key]));
-
     });
 
     const script = document.createElement('script');
 
     let finished = false;
 
-    const timeout = setTimeout(function() {
-
-      finish(new Error('Сервер не ответил. Попробуй ещё раз.'));
-
+    const timer = setTimeout(function() {
+      finish(
+        new Error('Сервер не ответил за 25 секунд')
+      );
     }, 25000);
 
-
-    function finish(error, result) {
-
-      if (finished) return;
-
-      finished = true;
-
-      clearTimeout(timeout);
+    function cleanup() {
+      clearTimeout(timer);
 
       delete window[callbackName];
 
       if (script.parentNode) {
         script.parentNode.removeChild(script);
       }
+    }
+
+    function finish(error, result) {
+      if (finished) return;
+
+      finished = true;
+      cleanup();
 
       if (error) {
         reject(error);
+      } else if (!result || result.success !== true) {
+        reject(
+          new Error(
+            result && result.error
+              ? result.error
+              : 'Ошибка сервера'
+          )
+        );
       } else {
         resolve(result);
       }
-
     }
 
-
     window[callbackName] = function(result) {
-
       finish(null, result);
-
     };
 
     script.onerror = function() {
-
-      finish(new Error('Не удалось связаться с сервером'));
-
+      finish(
+        new Error('Не удалось связаться с сервером')
+      );
     };
 
     script.src =
-      API_URL + '?' + params.toString();
+      API_URL +
+      '?' +
+      params.toString();
 
     document.body.appendChild(script);
-
   });
-
 }
 
 
 // ======================================================
-// ПОКАЗ ОШИБКИ ЗАГРУЗКИ
+// ОБНОВЛЕНИЕ ДАННЫХ
 // ======================================================
 
-function showLoadingError(message) {
+function refreshData() {
+  return callApi('getData')
+    .then(function(result) {
+      appData = result.data;
 
-  document.getElementById('loading').textContent =
-    'Ошибка: ' + message;
+      renderData();
 
+      document.getElementById('loading').classList.add('hidden');
+
+      document.getElementById('app').classList.remove('hidden');
+
+      return appData;
+    })
+    .catch(function(error) {
+      showMessage(error.message, true);
+      throw error;
+    });
 }
 
 
 // ======================================================
-// АВТОРИЗАЦИЯ И ЗАГРУЗКА
+// ОТОБРАЖЕНИЕ
 // ======================================================
 
-async function startApp() {
-
-  try {
-
-    if (!tg.initData) {
-      throw new Error(
-        'Открой приложение через Telegram'
-      );
-    }
-
-    const auth = await callApi('auth');
-
-    if (!auth.success) {
-      throw new Error(auth.error);
-    }
-
-    const response = await callApi('getData');
-
-    if (!response.success) {
-      throw new Error(response.error);
-    }
-
-    renderData(response.data);
-
-    document.getElementById('loading').classList.add('hidden');
-
-    document.getElementById('app').classList.remove('hidden');
-
-  } catch (error) {
-
-    showLoadingError(error.message || String(error));
-
-  }
-
-}
-
-
-// ======================================================
-// ОТОБРАЖЕНИЕ ДАННЫХ
-// ======================================================
-
-function renderData(data) {
-
-  currentData = data;
+function renderData() {
+  if (!appData) return;
 
   document.getElementById('period').textContent =
-    'Период: ' + data.period;
+    appData.period || '';
 
   document.getElementById('total').textContent =
-    formatMoney(data.total);
+    money(appData.total);
 
   document.getElementById('available').textContent =
-    formatMoney(data.available);
+    money(appData.available);
 
-
-  renderCategories(data.categories);
-
-  renderPending(data.pending || []);
-
-  renderHistory(data.history || []);
-
+  renderCategories();
+  renderWeekly();
+  renderBirthdays();
+  renderPending();
+  renderHistory();
 }
 
 
@@ -677,85 +669,189 @@ function renderData(data) {
 // КАТЕГОРИИ
 // ======================================================
 
-function renderCategories(categories) {
-
-  const container = document.getElementById('categories');
-
-  const items = [
-
-    {
-      key: 'products',
-      name: '🛒 Продукты',
-      title: 'Продукты'
-    },
-
-    {
-      key: 'birthdays',
-      name: '🎂 Дни рождения',
-      title: 'Дни рождения'
-    },
-
-    {
-      key: 'weekends',
-      name: '🎉 Выходные',
-      title: 'Выходные'
-    },
-
-    {
-      key: 'other',
-      name: '📦 Прочее',
-      title: 'Прочее'
-    }
-
-  ];
+function renderCategories() {
+  const container =
+    document.getElementById('categories');
 
   container.innerHTML = '';
 
-  items.forEach(function(item) {
+  const names = [
+    ['products', 'Продукты'],
+    ['birthdays', 'Дни рождения'],
+    ['weekends', 'Выходные'],
+    ['other', 'Прочее']
+  ];
 
-    const category = categories[item.key] || {
-      balance: 0,
-      spent: 0
-    };
+  names.forEach(function(item) {
+    const key = item[0];
+    const name = item[1];
+
+    const category =
+      appData.categories[key] || {};
+
+    const balance =
+      Number(category.balance) || 0;
+
+    const spent =
+      Number(category.spent) || 0;
+
+    const initial = balance + spent;
+
+    const percent = initial > 0
+      ? Math.max(
+          0,
+          Math.min(100, balance / initial * 100)
+        )
+      : 0;
+
+    const element = document.createElement('div');
+
+    element.className = 'category';
 
     const row = document.createElement('div');
+    row.className = 'row';
 
-    row.className = 'category';
+    const left = document.createElement('span');
+    left.className = 'category-name';
+    left.textContent = name;
 
-    const left = document.createElement('div');
-
-    const name = document.createElement('div');
-
-    name.className = 'category-name';
-
-    name.textContent = item.name;
-
-    const spent = document.createElement('div');
-
-    spent.className = 'category-spent';
-
-    spent.textContent =
-      'Потрачено: ' + formatMoney(category.spent);
-
-    left.appendChild(name);
-
-    left.appendChild(spent);
-
-
-    const balance = document.createElement('div');
-
-    balance.className = 'category-balance';
-
-    balance.textContent = formatMoney(category.balance);
+    const right = document.createElement('span');
+    right.className = 'category-balance';
+    right.textContent = money(balance);
 
     row.appendChild(left);
+    row.appendChild(right);
 
-    row.appendChild(balance);
+    const progress = document.createElement('div');
+    progress.className = 'progress';
 
-    container.appendChild(row);
+    const bar = document.createElement('div');
+    bar.style.width = percent + '%';
 
+    progress.appendChild(bar);
+
+    const details = document.createElement('div');
+    details.className = 'muted';
+    details.style.marginTop = '6px';
+    details.textContent =
+      'Потрачено: ' + money(spent);
+
+    element.appendChild(row);
+    element.appendChild(progress);
+    element.appendChild(details);
+
+    container.appendChild(element);
+  });
+}
+
+
+// ======================================================
+// НЕДЕЛЯ
+// ======================================================
+
+function renderWeekly() {
+  const weekly = appData.weekly || {};
+
+  document.getElementById('weekBalance').textContent =
+    money(weekly.currentRemaining);
+
+  document.getElementById('weekSpent').textContent =
+    'Потрачено за неделю: ' +
+    money(weekly.currentSpent);
+
+  const warning =
+    document.getElementById('weekWarning');
+
+  warning.innerHTML = '';
+
+  const nextRemaining =
+    Number(weekly.nextWeekRemaining);
+
+  if (!Number.isFinite(nextRemaining)) {
+    return;
+  }
+
+  let text = '';
+  let className = '';
+
+  if (nextRemaining < 5000) {
+    text =
+      'Критически мало денег на следующую неделю. ' +
+      'Остаток: ' + money(nextRemaining);
+
+    className = 'red';
+
+  } else if (nextRemaining < 7000) {
+    text =
+      'Внимание! Резерв следующей недели уменьшается. ' +
+      'Остаток: ' + money(nextRemaining);
+
+    className = 'yellow';
+
+  } else {
+    text =
+      'Резерв следующей недели: ' +
+      money(nextRemaining);
+
+    className = 'green';
+  }
+
+  const block = document.createElement('div');
+
+  block.className = 'warning ' + className;
+  block.textContent = text;
+
+  warning.appendChild(block);
+}
+
+
+// ======================================================
+// ДНИ РОЖДЕНИЯ
+// ======================================================
+
+function renderBirthdays() {
+  const card =
+    document.getElementById('birthdaysCard');
+
+  const list =
+    document.getElementById('birthdayList');
+
+  const birthdays =
+    appData.birthdays || [];
+
+  list.innerHTML = '';
+
+  if (!birthdays.length) {
+    card.classList.add('hidden');
+    return;
+  }
+
+  card.classList.remove('hidden');
+
+  birthdays.forEach(function(item) {
+    const element = document.createElement('div');
+
+    element.className = 'birthday-item';
+
+    const row = document.createElement('div');
+    row.className = 'row';
+
+    const name = document.createElement('span');
+    name.textContent = item.name;
+
+    const date = document.createElement('strong');
+    date.textContent = item.date;
+
+    row.appendChild(name);
+    row.appendChild(date);
+
+    element.appendChild(row);
+
+    list.appendChild(element);
   });
 
+  document.getElementById('birthdayReserve').textContent =
+    money(appData.birthdayReserve);
 }
 
 
@@ -763,817 +859,194 @@ function renderCategories(categories) {
 // БАНКОВСКИЕ УВЕДОМЛЕНИЯ
 // ======================================================
 
-function renderPending(pending) {
-
-  const container = document.getElementById('pending');
+function renderPending() {
+  const container =
+    document.getElementById('pendingList');
 
   container.innerHTML = '';
+
+  const pending =
+    appData.pending || [];
 
   if (!pending.length) {
-
-    const empty = document.createElement('div');
-
-    empty.className = 'empty';
-
-    empty.textContent =
-      'Нет операций, ожидающих подтверждения.';
-
-    container.appendChild(empty);
+    container.innerHTML =
+      '<div class="empty">Нет операций, ожидающих подтверждения.</div>';
 
     return;
-
   }
 
-
-  pending.forEach(function(operation) {
-
+  pending.forEach(function(item) {
     const card = document.createElement('div');
 
-    card.className = 'pending-card';
-
-
-    // Название операции
+    card.className = 'pending';
 
     const title = document.createElement('div');
-
-    title.className = 'pending-title';
-
-    title.textContent =
-      operation.description || 'Банковская покупка';
-
-
-    // Дата
-
-    const date = document.createElement('div');
-
-    date.className = 'pending-date';
-
-    date.textContent =
-      operation.date || 'Дата не указана';
-
-
-    // Исходный текст уведомления
-
-    const notificationTitle = document.createElement('div');
-
-    notificationTitle.className = 'pending-notification-title';
-
-    notificationTitle.textContent =
-      'Текст банковского уведомления';
-
-
-    const notification = document.createElement('div');
-
-    notification.className = 'pending-notification';
-
-    notification.textContent =
-      operation.rawText || 'Текст уведомления отсутствует';
-
-
-    // Поле суммы
-
-    const amountGroup = document.createElement('div');
-
-    amountGroup.className = 'form-group';
-
-    const amountLabel = document.createElement('label');
-
-    amountLabel.textContent = 'Сумма, ₽';
-
-    const amountInput = document.createElement('input');
-
-    amountInput.type = 'number';
-
-    amountInput.min = '0.01';
-
-    amountInput.max = '10000000';
-
-    amountInput.step = '0.01';
-
-    amountInput.value =
-      Number(operation.amount) > 0
-        ? operation.amount
-        : '';
-
-    amountInput.placeholder = 'Укажи сумму покупки';
-
-
-    amountGroup.appendChild(amountLabel);
-
-    amountGroup.appendChild(amountInput);
-
-
-    // Поле категории
-
-    const categoryGroup = document.createElement('div');
-
-    categoryGroup.className = 'form-group';
-
-    const categoryLabel = document.createElement('label');
-
-    categoryLabel.textContent = 'Категория';
-
-    const categorySelect = document.createElement('select');
-
-    const categoryOptions = [
-
-      {
-        value: 'Продукты',
-        text: '🛒 Продукты'
-      },
-
-      {
-        value: 'Дни рождения',
-        text: '🎂 Дни рождения'
-      },
-
-      {
-        value: 'Выходные',
-        text: '🎉 Выходные'
-      },
-
-      {
-        value: 'Прочее',
-        text: '📦 Прочее'
-      }
-
-    ];
-
-    categoryOptions.forEach(function(option) {
-
-      const element = document.createElement('option');
-
-      element.value = option.value;
-
-      element.textContent = option.text;
-
-      categorySelect.appendChild(element);
-
-    });
-
-    categorySelect.value =
-      categoryOptions.some(function(item) {
-        return item.value === operation.category;
-      })
-        ? operation.category
-        : 'Прочее';
-
-
-    categoryGroup.appendChild(categoryLabel);
-
-    categoryGroup.appendChild(categorySelect);
-
-
-    // Сообщение операции
-
-    const message = document.createElement('div');
-
-    message.className = 'message pending-status-message';
-
-
-    // Кнопка сохранения
-
-    const saveButton = document.createElement('button');
-
-    saveButton.type = 'button';
-
-    saveButton.className = 'secondary-button';
-
-    saveButton.textContent = 'Сохранить изменения';
-
-
-    // Кнопка подтверждения
-
-    const confirmButton = document.createElement('button');
-
-    confirmButton.type = 'button';
-
-    confirmButton.className = 'primary-button';
-
-    confirmButton.textContent = '✓ Подтвердить расход';
-
-
-    // Кнопка отмены
-
-    const cancelButton = document.createElement('button');
-
-    cancelButton.type = 'button';
-
-    cancelButton.className = 'danger-button';
-
-    cancelButton.textContent = 'Отменить операцию';
-
-
-    // Собираем карточку
+    title.className = 'operation-title';
+    title.textContent = item.description;
+
+    const meta = document.createElement('div');
+    meta.className = 'operation-meta';
+    meta.textContent =
+      item.date + ' · ' + item.category;
+
+    const amount = document.createElement('div');
+    amount.style.fontWeight = '800';
+    amount.style.marginTop = '7px';
+    amount.textContent = money(item.amount);
+
+    const actions = document.createElement('div');
+    actions.className = 'pending-actions';
+
+    const edit = document.createElement('button');
+    edit.className = 'secondary';
+    edit.textContent = 'Изменить';
+    edit.onclick = function() {
+      editPending(item);
+    };
+
+    const confirm = document.createElement('button');
+    confirm.textContent = 'Подтвердить';
+    confirm.onclick = function() {
+      confirmPending(item);
+    };
+
+    const cancel = document.createElement('button');
+    cancel.className = 'danger';
+    cancel.textContent = 'Отменить';
+    cancel.onclick = function() {
+      cancelPending(item);
+    };
+
+    actions.appendChild(edit);
+    actions.appendChild(confirm);
+    actions.appendChild(cancel);
 
     card.appendChild(title);
-
-    card.appendChild(date);
-
-    card.appendChild(notificationTitle);
-
-    card.appendChild(notification);
-
-    card.appendChild(amountGroup);
-
-    card.appendChild(categoryGroup);
-
-    card.appendChild(message);
-
-    card.appendChild(saveButton);
-
-    card.appendChild(confirmButton);
-
-    card.appendChild(cancelButton);
-
+    card.appendChild(meta);
+    card.appendChild(amount);
+    card.appendChild(actions);
 
     container.appendChild(card);
-
-
-    // Сохранение изменений
-
-    saveButton.addEventListener('click', async function() {
-
-      await savePendingOperation(
-        operation.id,
-        amountInput,
-        categorySelect,
-        message,
-        saveButton,
-        confirmButton,
-        cancelButton
-      );
-
-    });
-
-
-    // Подтверждение расхода
-
-    confirmButton.addEventListener('click', async function() {
-
-      await confirmPendingOperation(
-        operation.id,
-        amountInput,
-        categorySelect,
-        message,
-        saveButton,
-        confirmButton,
-        cancelButton
-      );
-
-    });
-
-
-    // Отмена операции
-
-    cancelButton.addEventListener('click', async function() {
-
-      await cancelPendingOperation(
-        operation.id,
-        message,
-        saveButton,
-        confirmButton,
-        cancelButton
-      );
-
-    });
-
   });
-
 }
 
 
 // ======================================================
-// БЛОКИРОВКА КНОПОК ОПЕРАЦИИ
+// ИСТОРИЯ
 // ======================================================
 
-function setPendingButtonsDisabled(
-  operationId,
-  disabled,
-  saveButton,
-  confirmButton,
-  cancelButton
-) {
-
-  pendingRequests[operationId] = disabled;
-
-  saveButton.disabled = disabled;
-
-  confirmButton.disabled = disabled;
-
-  cancelButton.disabled = disabled;
-
-}
-
-
-// ======================================================
-// СООБЩЕНИЕ В КАРТОЧКЕ ОПЕРАЦИИ
-// ======================================================
-
-function showPendingMessage(element, message, type) {
-
-  element.textContent = message;
-
-  element.className = 'message pending-status-message ' + type;
-
-}
-
-
-// ======================================================
-// ПРОВЕРКА СУММЫ ОЖИДАЮЩЕЙ ОПЕРАЦИИ
-// ======================================================
-
-function getPendingAmount(input) {
-
-  const amount = Number(input.value);
-
-  if (
-    !Number.isFinite(amount) ||
-    amount <= 0 ||
-    amount > 10000000
-  ) {
-
-    throw new Error(
-      'Введи корректную сумму больше нуля.'
-    );
-
-  }
-
-  return amount;
-
-}
-
-
-// ======================================================
-// СОХРАНЕНИЕ ИЗМЕНЕНИЙ ОЖИДАЮЩЕЙ ОПЕРАЦИИ
-// ======================================================
-
-async function savePendingOperation(
-  operationId,
-  amountInput,
-  categorySelect,
-  message,
-  saveButton,
-  confirmButton,
-  cancelButton
-) {
-
-  if (pendingRequests[operationId]) return;
-
-  let amount;
-
-  try {
-
-    amount = getPendingAmount(amountInput);
-
-  } catch (error) {
-
-    showPendingMessage(
-      message,
-      error.message,
-      'error'
-    );
-
-    return;
-
-  }
-
-  const category = categorySelect.value;
-
-  setPendingButtonsDisabled(
-    operationId,
-    true,
-    saveButton,
-    confirmButton,
-    cancelButton
-  );
-
-  saveButton.textContent = 'Сохраняем...';
-
-  try {
-
-    const response = await callApi('updatePending', {
-
-      operationId: operationId,
-
-      amount: amount,
-
-      category: category
-
-    });
-
-    if (!response.success) {
-
-      throw new Error(response.error);
-
-    }
-
-    if (!response.data) {
-
-      throw new Error(
-        'Изменения сохранены, но не удалось обновить экран.'
-      );
-
-    }
-
-    renderData(response.data);
-
-    if (tg.HapticFeedback) {
-      tg.HapticFeedback.notificationOccurred('success');
-    }
-
-  } catch (error) {
-
-    showPendingMessage(
-      message,
-      error.message || String(error),
-      'error'
-    );
-
-  } finally {
-
-    pendingRequests[operationId] = false;
-
-    saveButton.textContent = 'Сохранить изменения';
-
-    saveButton.disabled = false;
-
-    confirmButton.disabled = false;
-
-    cancelButton.disabled = false;
-
-  }
-
-}
-
-
-// ======================================================
-// ПОДТВЕРЖДЕНИЕ ОЖИДАЮЩЕЙ ОПЕРАЦИИ
-// ======================================================
-
-async function confirmPendingOperation(
-  operationId,
-  amountInput,
-  categorySelect,
-  message,
-  saveButton,
-  confirmButton,
-  cancelButton
-) {
-
-  if (pendingRequests[operationId]) return;
-
-  let amount;
-
-  try {
-
-    amount = getPendingAmount(amountInput);
-
-  } catch (error) {
-
-    showPendingMessage(
-      message,
-      error.message,
-      'error'
-    );
-
-    return;
-
-  }
-
-  const category = categorySelect.value;
-
-  const confirmed = window.confirm(
-    'Подтвердить расход ' +
-    formatMoney(amount) +
-    ' из категории «' +
-    category +
-    '»?'
-  );
-
-  if (!confirmed) return;
-
-
-  setPendingButtonsDisabled(
-    operationId,
-    true,
-    saveButton,
-    confirmButton,
-    cancelButton
-  );
-
-  confirmButton.textContent = 'Подтверждаем...';
-
-  try {
-
-    // СНАЧАЛА СОХРАНЯЕМ ИЗМЕНЁННУЮ СУММУ И КАТЕГОРИЮ
-
-    const updateResponse = await callApi('updatePending', {
-
-      operationId: operationId,
-
-      amount: amount,
-
-      category: category
-
-    });
-
-    if (!updateResponse.success) {
-
-      throw new Error(updateResponse.error);
-
-    }
-
-
-    // ТОЛЬКО ПОСЛЕ СОХРАНЕНИЯ ПОДТВЕРЖДАЕМ РАСХОД
-
-    const confirmResponse = await callApi('confirmPending', {
-
-      operationId: operationId,
-
-      category: category
-
-    });
-
-    if (!confirmResponse.success) {
-
-      throw new Error(confirmResponse.error);
-
-    }
-
-    if (!confirmResponse.data) {
-
-      throw new Error(
-        'Расход обработан, но не удалось обновить экран. Перезагрузи приложение.'
-      );
-
-    }
-
-
-    renderData(confirmResponse.data);
-
-    if (tg.HapticFeedback) {
-      tg.HapticFeedback.notificationOccurred('success');
-    }
-
-    if (tg.showPopup) {
-
-      tg.showPopup({
-
-        title: 'Расход подтверждён',
-
-        message:
-          'Сумма: ' + formatMoney(amount) +
-          '\nКатегория: ' + category,
-
-        buttons: [
-          {
-            type: 'ok'
-          }
-        ]
-
-      });
-
-    }
-
-  } catch (error) {
-
-    showPendingMessage(
-      message,
-      error.message || String(error),
-      'error'
-    );
-
-    if (tg.HapticFeedback) {
-      tg.HapticFeedback.notificationOccurred('error');
-    }
-
-  } finally {
-
-    pendingRequests[operationId] = false;
-
-    confirmButton.textContent = '✓ Подтвердить расход';
-
-    saveButton.disabled = false;
-
-    confirmButton.disabled = false;
-
-    cancelButton.disabled = false;
-
-  }
-
-}
-
-
-// ======================================================
-// ОТМЕНА ОЖИДАЮЩЕЙ ОПЕРАЦИИ
-// ======================================================
-
-async function cancelPendingOperation(
-  operationId,
-  message,
-  saveButton,
-  confirmButton,
-  cancelButton
-) {
-
-  if (pendingRequests[operationId]) return;
-
-  const confirmed = window.confirm(
-    'Отменить это банковское уведомление?\n\nДеньги из бюджета списаны не будут.'
-  );
-
-  if (!confirmed) return;
-
-
-  setPendingButtonsDisabled(
-    operationId,
-    true,
-    saveButton,
-    confirmButton,
-    cancelButton
-  );
-
-  cancelButton.textContent = 'Отменяем...';
-
-  try {
-
-    const response = await callApi('cancelPending', {
-
-      operationId: operationId
-
-    });
-
-    if (!response.success) {
-
-      throw new Error(response.error);
-
-    }
-
-    if (!response.data) {
-
-      throw new Error(
-        'Операция отменена, но не удалось обновить экран.'
-      );
-
-    }
-
-    renderData(response.data);
-
-    if (tg.HapticFeedback) {
-      tg.HapticFeedback.notificationOccurred('success');
-    }
-
-  } catch (error) {
-
-    showPendingMessage(
-      message,
-      error.message || String(error),
-      'error'
-    );
-
-  } finally {
-
-    pendingRequests[operationId] = false;
-
-    cancelButton.textContent = 'Отменить операцию';
-
-    saveButton.disabled = false;
-
-    confirmButton.disabled = false;
-
-    cancelButton.disabled = false;
-
-  }
-
-}
-
-
-// ======================================================
-// ИСТОРИЯ РАСХОДОВ
-// ======================================================
-
-function renderHistory(history) {
-
-  const container = document.getElementById('history');
+function renderHistory() {
+  const container =
+    document.getElementById('history');
 
   container.innerHTML = '';
 
+  const history =
+    appData.history || [];
+
   if (!history.length) {
-
-    const empty = document.createElement('div');
-
-    empty.className = 'empty';
-
-    empty.textContent = 'Операций пока нет.';
-
-    container.appendChild(empty);
+    container.innerHTML =
+      '<div class="empty">Пока нет операций.</div>';
 
     return;
-
   }
 
   history.forEach(function(item) {
+    const element = document.createElement('div');
+
+    element.className = 'operation';
 
     const row = document.createElement('div');
+    row.className = 'row';
 
-    row.className = 'history-item';
+    const left = document.createElement('div');
 
+    const title = document.createElement('div');
+    title.className = 'operation-title';
+    title.textContent = item.description;
 
-    const top = document.createElement('div');
+    const meta = document.createElement('div');
+    meta.className = 'operation-meta';
 
-    top.className = 'history-top';
+    meta.textContent =
+      item.date +
+      ' · ' +
+      item.category +
+      (item.source ? ' · ' + item.source : '');
 
-
-    const description = document.createElement('div');
-
-    description.className = 'history-description';
-
-    description.textContent = item.description;
-
+    left.appendChild(title);
+    left.appendChild(meta);
 
     const amount = document.createElement('div');
+    amount.className = 'operation-amount';
+    amount.textContent = '−' + money(item.amount);
 
-    amount.className = 'history-amount';
+    row.appendChild(left);
+    row.appendChild(amount);
 
-    amount.textContent = '− ' + formatMoney(item.amount);
+    element.appendChild(row);
 
-
-    top.appendChild(description);
-
-    top.appendChild(amount);
-
-
-    const info = document.createElement('div');
-
-    info.className = 'history-info';
-
-    info.textContent =
-      item.category + ' · ' + item.date;
-
-
-    row.appendChild(top);
-
-    row.appendChild(info);
-
-    container.appendChild(row);
-
+    container.appendChild(element);
   });
-
 }
 
 
 // ======================================================
-// ПОКАЗ ФОРМЫ
+// ФОРМА РАСХОДА
 // ======================================================
 
-function showExpenseForm() {
+function showExpenseForm(category) {
+  currentCategory = category;
 
-  const form = document.getElementById('expenseForm');
+  currentExpenseType =
+    category === 'Вне бюджета'
+      ? 'Вне бюджета'
+      : 'Расход';
 
-  form.classList.remove('hidden');
+  document.getElementById('expenseMenu')
+    .classList.add('hidden');
 
-  document.getElementById('formMessage').className = 'message';
+  document.getElementById('otherMenu')
+    .classList.add('hidden');
+
+  document.getElementById('expenseForm')
+    .classList.remove('hidden');
+
+  document.getElementById('expenseTitle')
+    .textContent = category;
+
+  document.getElementById('sourceBlock')
+    .classList.toggle(
+      'hidden',
+      currentExpenseType !== 'Вне бюджета'
+    );
+
+  document.getElementById('expenseAmount').value = '';
+  document.getElementById('expenseDescription').value = '';
+  document.getElementById('expenseSource').value = '';
 
   document.getElementById('expenseAmount').focus();
-
-  form.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
-
 }
 
 
-// ======================================================
-// СКРЫТИЕ ФОРМЫ
-// ======================================================
+function showOtherMenu() {
+  document.getElementById('expenseMenu')
+    .classList.add('hidden');
 
-function hideExpenseForm() {
-
-  if (requestInProgress) return;
-
-  document.getElementById('expenseForm').classList.add('hidden');
-
-  document.getElementById('expenseFormElement').reset();
-
-  document.getElementById('formMessage').className = 'message';
-
+  document.getElementById('otherMenu')
+    .classList.remove('hidden');
 }
 
 
-// ======================================================
-// СООБЩЕНИЕ В ФОРМЕ
-// ======================================================
+function backToExpenseMenu() {
+  document.getElementById('expenseForm')
+    .classList.add('hidden');
 
-function showFormMessage(message, type) {
+  document.getElementById('otherMenu')
+    .classList.add('hidden');
 
-  const element = document.getElementById('formMessage');
-
-  element.textContent = message;
-
-  element.className = 'message ' + type;
-
+  document.getElementById('expenseMenu')
+    .classList.remove('hidden');
 }
 
 
@@ -1581,153 +1054,270 @@ function showFormMessage(message, type) {
 // СОХРАНЕНИЕ РАСХОДА
 // ======================================================
 
-document.getElementById('expenseFormElement')
-  .addEventListener('submit', async function(event) {
+function saveExpense() {
+  const amount =
+    Number(document.getElementById('expenseAmount').value);
 
-    event.preventDefault();
+  const description =
+    document.getElementById('expenseDescription')
+      .value.trim();
 
-    if (requestInProgress) return;
+  const source =
+    document.getElementById('expenseSource')
+      .value.trim();
 
-    const amount = Number(
-      document.getElementById('expenseAmount').value
-    );
+  if (!Number.isFinite(amount) || amount <= 0) {
+    showMessage('Введи корректную сумму.', true);
+    return;
+  }
 
-    const description =
-      document.getElementById('expenseDescription').value.trim();
+  if (!description) {
+    showMessage('Напиши описание расхода.', true);
+    return;
+  }
 
-    const category =
-      document.getElementById('expenseCategory').value;
+  if (
+    currentExpenseType === 'Вне бюджета' &&
+    !source
+  ) {
+    showMessage('Укажи источник денег.', true);
+    return;
+  }
 
+  const requestId =
+    'expense_' +
+    Date.now() +
+    '_' +
+    Math.floor(Math.random() * 1000000);
 
-    if (!Number.isFinite(amount) || amount <= 0) {
+  callApi('addExpense', {
+    amount: amount,
+    description: description,
+    category: currentCategory,
+    expenseType: currentExpenseType,
+    source: source,
+    requestId: requestId
+  })
+    .then(function(result) {
+      appData = result.data;
 
-      showFormMessage(
-        'Введи корректную сумму.',
-        'error'
-      );
+      renderData();
 
-      return;
+      backToExpenseMenu();
 
-    }
+      showMessage('Расход сохранён.');
 
-    if (!description) {
-
-      showFormMessage(
-        'Напиши, что было куплено.',
-        'error'
-      );
-
-      return;
-
-    }
-
-    const button =
-      document.getElementById('saveExpenseButton');
-
-    requestInProgress = true;
-
-    button.disabled = true;
-
-    button.textContent = 'Сохраняем...';
-
-
-    try {
-
-      const requestId =
-        'expense_' +
-        Date.now() +
-        '_' +
-        Math.floor(Math.random() * 1000000000);
-
-      const response = await callApi('addExpense', {
-
-        amount: amount,
-
-        description: description,
-
-        category: category,
-
-        requestId: requestId
-
-      });
-
-
-      if (!response.success) {
-
-        throw new Error(response.error);
-
-      }
-
-
-      if (!response.data) {
-
-        throw new Error(
-          'Расход сохранён, но не удалось получить обновлённый бюджет. Обнови экран.'
-        );
-
-      }
-
-
-      renderData(response.data);
-
-
-      document.getElementById('expenseFormElement').reset();
-
-      document.getElementById('expenseForm').classList.add('hidden');
-
-
-      if (tg.HapticFeedback) {
+      if (tg && tg.HapticFeedback) {
         tg.HapticFeedback.notificationOccurred('success');
       }
-
-      tg.showPopup({
-
-        title: 'Расход сохранён',
-
-        message:
-          'Сумма: ' + formatMoney(amount) +
-          '\nКатегория: ' + category,
-
-        buttons: [
-          {
-            type: 'ok'
-          }
-        ]
-
-      });
-
-
-    } catch (error) {
-
-      showFormMessage(
-        error.message || String(error),
-        'error'
-      );
-
-      if (tg.HapticFeedback) {
-        tg.HapticFeedback.notificationOccurred('error');
-      }
-
-    } finally {
-
-      requestInProgress = false;
-
-      button.disabled = false;
-
-      button.textContent = 'Сохранить расход';
-
-    }
-
-  });
+    })
+    .catch(function(error) {
+      showMessage(error.message, true);
+    });
+}
 
 
 // ======================================================
-// ЗАПУСК
+// НОВЫЙ БЮДЖЕТ
 // ======================================================
 
-startApp();
+function showBudgetForm() {
+  document.getElementById('budgetForm')
+    .classList.remove('hidden');
+
+  document.getElementById('budgetAmount').focus();
+}
+
+
+function hideBudgetForm() {
+  document.getElementById('budgetForm')
+    .classList.add('hidden');
+}
+
+
+function saveBudget() {
+  const amount =
+    Number(document.getElementById('budgetAmount').value);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    showMessage('Введи корректную сумму.', true);
+    return;
+  }
+
+  if (
+    !confirm(
+      'Создать новый бюджет на сумму ' +
+      money(amount) +
+      '?\n\nОстатки прошлого периода будут добавлены и распределены заново.'
+    )
+  ) {
+    return;
+  }
+
+  callApi('addBudget', {
+    amount: amount
+  })
+    .then(function(result) {
+      appData = result.data;
+
+      renderData();
+
+      hideBudgetForm();
+
+      document.getElementById('budgetAmount').value = '';
+
+      showMessage('Новый бюджет создан.');
+    })
+    .catch(function(error) {
+      showMessage(error.message, true);
+    });
+}
+
+
+// ======================================================
+// БАНКОВСКИЕ ОПЕРАЦИИ
+// ======================================================
+
+function confirmPending(item) {
+  const category = prompt(
+    'Категория расхода:\n' +
+    'Продукты\n' +
+    'Дни рождения\n' +
+    'Выходные\n' +
+    'Прочее',
+    item.category
+  );
+
+  if (!category) return;
+
+  if (![
+    'Продукты',
+    'Дни рождения',
+    'Выходные',
+    'Прочее'
+  ].includes(category)) {
+    showMessage('Неизвестная категория.', true);
+    return;
+  }
+
+  callApi('confirmPending', {
+    operationId: item.id,
+    category: category
+  })
+    .then(function(result) {
+      appData = result.data;
+      renderData();
+      showMessage('Покупка подтверждена.');
+    })
+    .catch(function(error) {
+      showMessage(error.message, true);
+    });
+}
+
+
+function editPending(item) {
+  const amount = prompt(
+    'Сумма операции:',
+    String(item.amount)
+  );
+
+  if (amount === null) return;
+
+  const category = prompt(
+    'Категория:\n' +
+    'Продукты\n' +
+    'Дни рождения\n' +
+    'Выходные\n' +
+    'Прочее',
+    item.category
+  );
+
+  if (!category) return;
+
+  if (![
+    'Продукты',
+    'Дни рождения',
+    'Выходные',
+    'Прочее'
+  ].includes(category)) {
+    showMessage('Неизвестная категория.', true);
+    return;
+  }
+
+  callApi('updatePending', {
+    operationId: item.id,
+    amount: amount,
+    category: category
+  })
+    .then(function(result) {
+      appData = result.data;
+      renderData();
+      showMessage('Операция изменена.');
+    })
+    .catch(function(error) {
+      showMessage(error.message, true);
+    });
+}
+
+
+function cancelPending(item) {
+  if (!confirm('Отменить это банковское уведомление?')) {
+    return;
+  }
+
+  callApi('cancelPending', {
+    operationId: item.id
+  })
+    .then(function(result) {
+      appData = result.data;
+      renderData();
+      showMessage('Операция отменена.');
+    })
+    .catch(function(error) {
+      showMessage(error.message, true);
+    });
+}
+
+
+// ======================================================
+// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+// ======================================================
+
+function money(value) {
+  const number = Number(value) || 0;
+
+  return number.toLocaleString('ru-RU', {
+    maximumFractionDigits: 2
+  }) + ' ₽';
+}
+
+
+function showMessage(message, isError) {
+  const container =
+    document.getElementById('message');
+
+  container.className =
+    isError ? 'card error' : 'card';
+
+  container.textContent = message;
+
+  if (!isError) {
+    setTimeout(function() {
+      container.textContent = '';
+      container.className = '';
+    }, 3500);
+  }
+}
+
+
+function showFatalError(message) {
+  document.getElementById('loading').innerHTML =
+    '<div class="error"></div>';
+
+  document.querySelector('#loading .error')
+    .textContent = message;
+}
 
 </script>
-
 </body>
 </html>
