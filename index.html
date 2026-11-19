@@ -3,50 +3,348 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Проверка Telegram</title>
+  <meta name="referrer" content="no-referrer">
+
+  <title>Семейный бюджет 2.0</title>
+
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
+      margin: 0;
+      padding: 18px;
       font-family: Arial, sans-serif;
       background: #f2f4f7;
-      padding: 20px;
-      color: #222;
+      color: #202124;
     }
-    .box {
+
+    h1 {
+      font-size: 25px;
+      margin: 8px 0;
+    }
+
+    .period {
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    .card {
       background: white;
-      padding: 20px;
-      border-radius: 14px;
-      margin-top: 20px;
-      line-height: 1.7;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
     }
-    h2 { margin-top: 0; }
+
+    .main-balance {
+      background: #1f2937;
+      color: white;
+    }
+
+    .main-balance .amount {
+      font-size: 32px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .label {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .main-balance .label {
+      color: #d1d5db;
+    }
+
+    .category {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 13px;
+    }
+
+    .category-name {
+      font-weight: bold;
+    }
+
+    .category-balance {
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .history-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-title {
+      font-weight: bold;
+    }
+
+    .history-info {
+      color: #777;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .history-amount {
+      margin-top: 5px;
+      font-weight: bold;
+    }
+
+    .status {
+      padding: 14px;
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .error {
+      color: #b91c1c;
+      white-space: pre-wrap;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
+
 <body>
-  <h2>Проверка Telegram Mini App</h2>
-  <div class="box" id="result">Проверяем...</div>
 
-  <script>
-    const tg = window.Telegram?.WebApp;
+  <div id="status" class="status">
+    Подключаемся к семейному бюджету...
+  </div>
 
-    if (tg) {
-      tg.ready();
-      tg.expand();
+  <div id="app" class="hidden">
 
-      const user = tg.initDataUnsafe?.user;
+    <h1>Семейный бюджет</h1>
 
-      document.getElementById('result').innerHTML = `
-        SDK: Найден<br>
-        Версия: ${tg.version}<br>
-        Платформа: ${tg.platform}<br>
-        Длина initData: ${tg.initData.length}<br>
-        Пользователь: ${user ? 'Обнаружен' : 'Не обнаружен'}<br>
-        Telegram ID: ${user ? user.id : 'Нет данных'}
-      `;
-    } else {
-      document.getElementById('result').innerHTML =
-        'Telegram WebApp SDK не найден';
+    <div id="period" class="period"></div>
+
+    <div class="card main-balance">
+      <div class="label">Всего в бюджете</div>
+      <div class="amount" id="total">0 ₽</div>
+
+      <div class="label" style="margin-top:15px">
+        Доступно для расходов
+      </div>
+
+      <div class="amount" id="available">0 ₽</div>
+    </div>
+
+    <div class="card">
+      <h3>Мои категории</h3>
+
+      <div class="category">
+        <span class="category-name">🛒 Продукты</span>
+        <span class="category-balance" id="products">0 ₽</span>
+      </div>
+
+      <div class="category">
+        <span class="category-name">🎂 Дни рождения</span>
+        <span class="category-balance" id="birthdays">0 ₽</span>
+      </div>
+
+      <div class="category">
+        <span class="category-name">🎉 Выходные</span>
+        <span class="category-balance" id="weekends">0 ₽</span>
+      </div>
+
+      <div class="category">
+        <span class="category-name">📦 Прочее</span>
+        <span class="category-balance" id="other">0 ₽</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>История расходов</h3>
+      <div id="history">Операций пока нет.</div>
+    </div>
+
+  </div>
+
+<script>
+
+const API_URL =
+  'https://script.google.com/macros/s/AKfycbzJBSis87N7r5eRKk9LCQJgsDL3yZ_IAog7oEtC3R7zk4Iwn8bItBEDJylQbo2atrg2dw/exec';
+
+const tg = window.Telegram?.WebApp;
+
+if (tg) {
+  tg.ready();
+  tg.expand();
+}
+
+function formatMoney(value) {
+  return Number(value || 0).toLocaleString('ru-RU', {
+    maximumFractionDigits: 2
+  }) + ' ₽';
+}
+
+function setStatus(message, isError) {
+  const element = document.getElementById('status');
+
+  element.textContent = message;
+  element.className = 'status' + (isError ? ' error' : '');
+}
+
+function callApi(action, initData) {
+  return new Promise((resolve, reject) => {
+
+    const callbackName =
+      'budgetCallback_' + Date.now() + '_' +
+      Math.floor(Math.random() * 100000);
+
+    const params = new URLSearchParams({
+      api: '1',
+      action: action,
+      initData: initData,
+      callback: callbackName
+    });
+
+    const script = document.createElement('script');
+
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(new Error('Сервер не ответил. Попробуй ещё раз.'));
+    }, 20000);
+
+    function cleanup() {
+      clearTimeout(timeout);
+      delete window[callbackName];
+      script.remove();
     }
-  </script>
+
+    window[callbackName] = function(result) {
+      cleanup();
+
+      if (!result.success) {
+        reject(new Error(result.error || 'Ошибка сервера'));
+        return;
+      }
+
+      resolve(result);
+    };
+
+    script.onerror = function() {
+      cleanup();
+      reject(new Error('Не удалось подключиться к серверу Google'));
+    };
+
+    script.src = API_URL + '?' + params.toString();
+
+    document.head.appendChild(script);
+  });
+}
+
+function renderData(data) {
+
+  document.getElementById('period').textContent =
+    'Период: ' + data.period;
+
+  document.getElementById('total').textContent =
+    formatMoney(data.total);
+
+  document.getElementById('available').textContent =
+    formatMoney(data.available);
+
+  document.getElementById('products').textContent =
+    formatMoney(data.categories.products.balance);
+
+  document.getElementById('birthdays').textContent =
+    formatMoney(data.categories.birthdays.balance);
+
+  document.getElementById('weekends').textContent =
+    formatMoney(data.categories.weekends.balance);
+
+  document.getElementById('other').textContent =
+    formatMoney(data.categories.other.balance);
+
+  const history = document.getElementById('history');
+
+  history.innerHTML = '';
+
+  if (!data.history || data.history.length === 0) {
+    history.textContent = 'Операций пока нет.';
+  } else {
+    data.history.forEach(item => {
+
+      const block = document.createElement('div');
+      block.className = 'history-item';
+
+      const title = document.createElement('div');
+      title.className = 'history-title';
+      title.textContent = item.description;
+
+      const info = document.createElement('div');
+      info.className = 'history-info';
+      info.textContent = item.date + ' · ' + item.category;
+
+      const amount = document.createElement('div');
+      amount.className = 'history-amount';
+      amount.textContent = '− ' + formatMoney(item.amount);
+
+      block.appendChild(title);
+      block.appendChild(info);
+      block.appendChild(amount);
+
+      history.appendChild(block);
+    });
+  }
+
+  document.getElementById('app').classList.remove('hidden');
+
+  setStatus('Подключение успешно. Данные бюджета загружены.', false);
+}
+
+async function startApp() {
+
+  try {
+
+    if (!tg || !tg.initData) {
+      throw new Error(
+        'Открой бюджет через Telegram, чтобы авторизоваться.'
+      );
+    }
+
+    setStatus('Проверяем авторизацию Telegram...', false);
+
+    const auth = await callApi('auth', tg.initData);
+
+    if (!auth.success) {
+      throw new Error('Авторизация не пройдена');
+    }
+
+    setStatus('Авторизация подтверждена. Загружаем бюджет...', false);
+
+    const response = await callApi('getData', tg.initData);
+
+    renderData(response.data);
+
+  } catch (error) {
+
+    setStatus(
+      'Ошибка подключения:\n' + error.message,
+      true
+    );
+
+  }
+}
+
+startApp();
+
+</script>
+
 </body>
 </html>
