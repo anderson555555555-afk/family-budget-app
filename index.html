@@ -22,9 +22,7 @@
       --border: rgba(128,128,128,.18);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -34,26 +32,10 @@
       font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
     }
 
-    .container {
-      max-width: 520px;
-      margin: auto;
-    }
-
-    h1 {
-      font-size: 25px;
-      margin: 8px 0 5px;
-    }
-
-    h2 {
-      font-size: 18px;
-      margin: 0 0 14px;
-    }
-
-    .subtitle {
-      color: var(--hint);
-      font-size: 13px;
-      margin-bottom: 18px;
-    }
+    .container { max-width: 520px; margin: auto; }
+    h1 { font-size: 25px; margin: 8px 0 5px; }
+    h2 { font-size: 18px; margin: 0 0 14px; }
+    .subtitle { color: var(--hint); font-size: 13px; margin-bottom: 18px; }
 
     .card {
       background: var(--card);
@@ -63,16 +45,8 @@
       box-shadow: 0 2px 8px rgba(0,0,0,.04);
     }
 
-    .total {
-      font-size: 32px;
-      font-weight: 800;
-      margin: 8px 0;
-    }
-
-    .muted {
-      color: var(--hint);
-      font-size: 13px;
-    }
+    .total { font-size: 32px; font-weight: 800; margin: 8px 0; }
+    .muted { color: var(--hint); font-size: 13px; }
 
     .row {
       display: flex;
@@ -81,23 +55,10 @@
       gap: 10px;
     }
 
-    .category {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .category:last-child {
-      border-bottom: none;
-    }
-
-    .category-name {
-      font-weight: 600;
-    }
-
-    .category-balance {
-      font-weight: 700;
-      white-space: nowrap;
-    }
+    .category { padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .category:last-child { border-bottom: none; }
+    .category-name { font-weight: 600; }
+    .category-balance { font-weight: 700; white-space: nowrap; }
 
     .progress {
       height: 7px;
@@ -154,16 +115,8 @@
       background: rgba(128,128,128,.14);
     }
 
-    button.danger {
-      background: var(--danger);
-    }
-
-    button.small {
-      width: auto;
-      padding: 9px 12px;
-      font-size: 13px;
-      margin: 0;
-    }
+    button.danger { background: var(--danger); }
+    button.small { width: auto; padding: 9px 12px; font-size: 13px; margin: 0; }
 
     input, select {
       width: 100%;
@@ -176,39 +129,14 @@
       font-size: 16px;
     }
 
-    label {
-      font-size: 13px;
-      color: var(--hint);
-    }
+    label { font-size: 13px; color: var(--hint); }
+    .hidden { display: none !important; }
 
-    .hidden {
-      display: none !important;
-    }
-
-    .operation {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .operation:last-child {
-      border-bottom: none;
-    }
-
-    .operation-title {
-      font-weight: 600;
-      overflow-wrap: anywhere;
-    }
-
-    .operation-meta {
-      color: var(--hint);
-      font-size: 12px;
-      margin-top: 5px;
-    }
-
-    .operation-amount {
-      font-weight: 700;
-      white-space: nowrap;
-    }
+    .operation { padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .operation:last-child { border-bottom: none; }
+    .operation-title { font-weight: 600; overflow-wrap: anywhere; }
+    .operation-meta { color: var(--hint); font-size: 12px; margin-top: 5px; }
+    .operation-amount { font-weight: 700; white-space: nowrap; }
 
     .pending {
       border: 1px solid rgba(229,160,0,.4);
@@ -217,44 +145,14 @@
       margin-bottom: 10px;
     }
 
-    .pending-actions {
-      display: flex;
-      gap: 7px;
-      margin-top: 10px;
-    }
+    .pending-actions { display: flex; gap: 7px; margin-top: 10px; }
+    .pending-actions button { flex: 1; padding: 10px 5px; font-size: 13px; }
 
-    .pending-actions button {
-      flex: 1;
-      padding: 10px 5px;
-      font-size: 13px;
-    }
-
-    .birthday-item {
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .birthday-item:last-child {
-      border-bottom: none;
-    }
-
-    .empty {
-      color: var(--hint);
-      font-size: 13px;
-      padding: 8px 0;
-    }
-
-    .loader {
-      text-align: center;
-      padding: 35px 10px;
-      color: var(--hint);
-    }
-
-    .error {
-      color: var(--danger);
-      white-space: pre-wrap;
-      font-size: 14px;
-    }
+    .birthday-item { padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .birthday-item:last-child { border-bottom: none; }
+    .empty { color: var(--hint); font-size: 13px; padding: 8px 0; }
+    .loader { text-align: center; padding: 35px 10px; color: var(--hint); }
+    .error { color: var(--danger); white-space: pre-wrap; font-size: 14px; }
 
     .section-title {
       display: flex;
@@ -264,205 +162,128 @@
       margin-bottom: 12px;
     }
 
-    .section-title h2 {
-      margin: 0;
-    }
-
-    .amount-large {
-      font-size: 25px;
-      font-weight: 800;
-    }
+    .section-title h2 { margin: 0; }
+    .amount-large { font-size: 25px; font-weight: 800; }
   </style>
 </head>
 
 <body>
 <div class="container">
 
-  <div id="loading" class="loader">
-    Загружаем семейный бюджет…
-  </div>
+  <div id="loading" class="loader">Загружаем семейный бюджет…</div>
 
   <div id="app" class="hidden">
 
     <h1>Семейный бюджет</h1>
     <div id="period" class="subtitle"></div>
 
-    <!-- ОБЩИЙ БАЛАНС -->
-
     <div class="card">
       <div class="muted">Бюджет текущего периода</div>
       <div id="total" class="total">0 ₽</div>
-
       <div class="row">
         <span class="muted">Остаток продуктов и прочего</span>
         <strong id="available">0 ₽</strong>
       </div>
-
-      <button onclick="showBudgetForm()">
-        + Добавить новый бюджет
-      </button>
+      <button onclick="showBudgetForm()">+ Добавить новый бюджет</button>
     </div>
-
-    <!-- НЕДЕЛЯ -->
 
     <div class="card">
       <h2>Текущая неделя</h2>
-
       <div class="muted">Остаток продуктов на неделю</div>
       <div id="weekBalance" class="amount-large">—</div>
-
       <div class="muted" id="weekSpent"></div>
-
       <div id="weekWarning"></div>
-
       <div class="muted" style="margin-top:12px">
         Приложение показывает недельный остаток и предупреждает,
         если резерв следующей недели становится слишком маленьким.
       </div>
     </div>
 
-    <!-- КАТЕГОРИИ -->
-
     <div class="card">
       <h2>Остатки по категориям</h2>
       <div id="categories"></div>
     </div>
 
-    <!-- ДНИ РОЖДЕНИЯ -->
-
+    <!-- Дни рождения текущего периода: скрываются, если именинников нет -->
     <div id="birthdaysCard" class="card hidden">
       <h2>Дни рождения в этом периоде</h2>
-
       <div id="birthdayList"></div>
-
       <div class="row" style="margin-top:12px">
         <span class="muted">Общий резерв</span>
         <strong id="birthdayReserve"></strong>
       </div>
     </div>
 
-    <!-- БАНКОВСКИЕ УВЕДОМЛЕНИЯ -->
+    <!-- Полный список доступен всегда, даже если в периоде нет именинников -->
+    <div class="card">
+      <button class="secondary" onclick="toggleAllBirthdays()">
+        Все дни рождения
+      </button>
+    </div>
+
+    <div id="allBirthdaysCard" class="card hidden">
+      <div class="section-title">
+        <h2>Полный список дней рождения</h2>
+        <button class="small secondary" onclick="toggleAllBirthdays(false)">
+          Закрыть
+        </button>
+      </div>
+      <div id="allBirthdayList"></div>
+    </div>
 
     <div class="card">
       <div class="section-title">
         <h2>Банковские уведомления</h2>
-        <button class="small secondary" onclick="refreshData()">
-          Обновить
-        </button>
+        <button class="small secondary" onclick="refreshData()">Обновить</button>
       </div>
-
       <div id="pendingList"></div>
     </div>
-
-    <!-- РАСХОДЫ -->
 
     <div class="card">
       <h2>Новый расход</h2>
 
       <div id="expenseMenu">
-        <button onclick="showExpenseForm('Продукты')">
-          Продукты на неделю
-        </button>
-
-        <button onclick="showExpenseForm('Прочее')">
-          Прочее на неделю
-        </button>
-
-        <button class="secondary" onclick="showOtherMenu()">
-          Это другое
-        </button>
+        <button onclick="showExpenseForm('Продукты')">Продукты на неделю</button>
+        <button onclick="showExpenseForm('Прочее')">Прочее на неделю</button>
+        <button class="secondary" onclick="showOtherMenu()">Это другое</button>
       </div>
 
       <div id="otherMenu" class="hidden">
-        <button onclick="showExpenseForm('Дни рождения')">
-          На дни рождения
-        </button>
-
-        <button onclick="showExpenseForm('Выходные')">
-          На выходные
-        </button>
-
-        <button class="secondary" onclick="showExpenseForm('Вне бюджета')">
-          Вне бюджета
-        </button>
-
-        <button class="secondary" onclick="backToExpenseMenu()">
-          Назад
-        </button>
+        <button onclick="showExpenseForm('Дни рождения')">На дни рождения</button>
+        <button onclick="showExpenseForm('Выходные')">На выходные</button>
+        <button class="secondary" onclick="showExpenseForm('Вне бюджета')">Вне бюджета</button>
+        <button class="secondary" onclick="backToExpenseMenu()">Назад</button>
       </div>
 
       <div id="expenseForm" class="hidden">
         <h2 id="expenseTitle"></h2>
-
         <label>Сумма, ₽</label>
-        <input
-          id="expenseAmount"
-          type="number"
-          inputmode="decimal"
-          min="0.01"
-          step="0.01"
-          placeholder="Например, 1250"
-        >
-
+        <input id="expenseAmount" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="Например, 1250">
         <label>Описание</label>
-        <input
-          id="expenseDescription"
-          type="text"
-          maxlength="150"
-          placeholder="На что потрачены деньги"
-        >
+        <input id="expenseDescription" type="text" maxlength="150" placeholder="На что потрачены деньги">
 
         <div id="sourceBlock" class="hidden">
           <label>Источник денег</label>
-          <input
-            id="expenseSource"
-            type="text"
-            maxlength="100"
-            placeholder="Например, личные деньги"
-          >
+          <input id="expenseSource" type="text" maxlength="100" placeholder="Например, личные деньги">
         </div>
 
-        <button onclick="saveExpense()">
-          Сохранить расход
-        </button>
-
-        <button class="secondary" onclick="backToExpenseMenu()">
-          Отмена
-        </button>
+        <button onclick="saveExpense()">Сохранить расход</button>
+        <button class="secondary" onclick="backToExpenseMenu()">Отмена</button>
       </div>
     </div>
 
-    <!-- НОВЫЙ БЮДЖЕТ -->
-
     <div id="budgetForm" class="card hidden">
       <h2>Новый бюджет</h2>
-
       <div class="muted">
         Введи сумму, которая осталась после остальных расходов.
         Приложение прибавит остатки прошлого периода и заново
         распределит общую сумму по категориям.
       </div>
-
       <label>Сумма, ₽</label>
-      <input
-        id="budgetAmount"
-        type="number"
-        inputmode="decimal"
-        min="0.01"
-        step="0.01"
-        placeholder="Например, 25000"
-      >
-
-      <button onclick="saveBudget()">
-        Создать новый бюджет
-      </button>
-
-      <button class="secondary" onclick="hideBudgetForm()">
-        Отмена
-      </button>
+      <input id="budgetAmount" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="Например, 25000">
+      <button onclick="saveBudget()">Создать новый бюджет</button>
+      <button class="secondary" onclick="hideBudgetForm()">Отмена</button>
     </div>
-
-    <!-- ИСТОРИЯ -->
 
     <div class="card">
       <h2>История операций</h2>
@@ -470,31 +291,16 @@
     </div>
 
     <div id="message"></div>
-
   </div>
 </div>
 
-
 <script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbzJBSis87N7r5eRKk9LCQJgsDL3yZ_IAog7oEtC3R7zk4Iwn8bItBEDJylQbo2atrg2dw/exec';
 
-// ======================================================
-// НАСТРОЙКИ
-// ======================================================
-
-const API_URL = 'ВСТАВЬ_АДРЕС_СВОЕГО_ПРИЛОЖЕНИЯ';
-
-const tg = window.Telegram
-  ? window.Telegram.WebApp
-  : null;
-
+const tg = window.Telegram ? window.Telegram.WebApp : null;
 let appData = null;
 let currentCategory = '';
 let currentExpenseType = 'Расход';
-
-
-// ======================================================
-// ЗАПУСК
-// ======================================================
 
 if (tg) {
   tg.ready();
@@ -504,134 +310,66 @@ if (tg) {
 startApp();
 
 function startApp() {
-  if (
-    !API_URL ||
-    API_URL.indexOf('https://script.google.com/') !== 0
-  ) {
-    showFatalError(
-      'Не указан адрес Google Apps Script в переменной API_URL.'
-    );
+  if (!API_URL || API_URL.indexOf('https://script.google.com/') !== 0) {
+    showFatalError('Не указан адрес Google Apps Script в переменной API_URL.');
     return;
   }
-
   if (!tg || !tg.initData) {
-    showFatalError(
-      'Открой приложение через Telegram.'
-    );
+    showFatalError('Открой приложение через Telegram.');
     return;
   }
-
   callApi('auth')
-    .then(function() {
-      return refreshData();
-    })
-    .catch(function(error) {
-      showFatalError(error.message || String(error));
-    });
+    .then(function() { return refreshData(); })
+    .catch(function(error) { showFatalError(error.message || String(error)); });
 }
-
-
-// ======================================================
-// JSONP API
-// ======================================================
 
 function callApi(action, extra) {
   extra = extra || {};
-
   return new Promise(function(resolve, reject) {
-    const callbackName =
-      'budgetCallback_' +
-      Date.now() +
-      '_' +
-      Math.floor(Math.random() * 100000);
-
+    const callbackName = 'budgetCallback_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
     const params = new URLSearchParams();
-
     params.set('api', '1');
     params.set('action', action);
     params.set('initData', tg.initData);
     params.set('callback', callbackName);
-
-    Object.keys(extra).forEach(function(key) {
-      params.set(key, String(extra[key]));
-    });
+    Object.keys(extra).forEach(function(key) { params.set(key, String(extra[key])); });
 
     const script = document.createElement('script');
-
     let finished = false;
-
     const timer = setTimeout(function() {
-      finish(
-        new Error('Сервер не ответил за 25 секунд')
-      );
+      finish(new Error('Сервер не ответил за 25 секунд'));
     }, 25000);
 
     function cleanup() {
       clearTimeout(timer);
-
       delete window[callbackName];
-
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
+      if (script.parentNode) script.parentNode.removeChild(script);
     }
 
     function finish(error, result) {
       if (finished) return;
-
       finished = true;
       cleanup();
-
-      if (error) {
-        reject(error);
-      } else if (!result || result.success !== true) {
-        reject(
-          new Error(
-            result && result.error
-              ? result.error
-              : 'Ошибка сервера'
-          )
-        );
-      } else {
-        resolve(result);
-      }
+      if (error) reject(error);
+      else if (!result || result.success !== true) {
+        reject(new Error(result && result.error ? result.error : 'Ошибка сервера'));
+      } else resolve(result);
     }
 
-    window[callbackName] = function(result) {
-      finish(null, result);
-    };
-
-    script.onerror = function() {
-      finish(
-        new Error('Не удалось связаться с сервером')
-      );
-    };
-
-    script.src =
-      API_URL +
-      '?' +
-      params.toString();
-
+    window[callbackName] = function(result) { finish(null, result); };
+    script.onerror = function() { finish(new Error('Не удалось связаться с сервером')); };
+    script.src = API_URL + '?' + params.toString();
     document.body.appendChild(script);
   });
 }
-
-
-// ======================================================
-// ОБНОВЛЕНИЕ ДАННЫХ
-// ======================================================
 
 function refreshData() {
   return callApi('getData')
     .then(function(result) {
       appData = result.data;
-
       renderData();
-
       document.getElementById('loading').classList.add('hidden');
-
       document.getElementById('app').classList.remove('hidden');
-
       return appData;
     })
     .catch(function(error) {
@@ -640,41 +378,22 @@ function refreshData() {
     });
 }
 
-
-// ======================================================
-// ОТОБРАЖЕНИЕ
-// ======================================================
-
 function renderData() {
   if (!appData) return;
-
-  document.getElementById('period').textContent =
-    appData.period || '';
-
-  document.getElementById('total').textContent =
-    money(appData.total);
-
-  document.getElementById('available').textContent =
-    money(appData.available);
-
+  document.getElementById('period').textContent = appData.period || '';
+  document.getElementById('total').textContent = money(appData.total);
+  document.getElementById('available').textContent = money(appData.available);
   renderCategories();
   renderWeekly();
   renderBirthdays();
+  renderAllBirthdays();
   renderPending();
   renderHistory();
 }
 
-
-// ======================================================
-// КАТЕГОРИИ
-// ======================================================
-
 function renderCategories() {
-  const container =
-    document.getElementById('categories');
-
+  const container = document.getElementById('categories');
   container.innerHTML = '';
-
   const names = [
     ['products', 'Продукты'],
     ['birthdays', 'Дни рождения'],
@@ -685,29 +404,14 @@ function renderCategories() {
   names.forEach(function(item) {
     const key = item[0];
     const name = item[1];
-
-    const category =
-      appData.categories[key] || {};
-
-    const balance =
-      Number(category.balance) || 0;
-
-    const spent =
-      Number(category.spent) || 0;
-
+    const category = (appData.categories || {})[key] || {};
+    const balance = Number(category.balance) || 0;
+    const spent = Number(category.spent) || 0;
     const initial = balance + spent;
-
-    const percent = initial > 0
-      ? Math.max(
-          0,
-          Math.min(100, balance / initial * 100)
-        )
-      : 0;
+    const percent = initial > 0 ? Math.max(0, Math.min(100, balance / initial * 100)) : 0;
 
     const element = document.createElement('div');
-
     element.className = 'category';
-
     const row = document.createElement('div');
     row.className = 'row';
 
@@ -724,101 +428,55 @@ function renderCategories() {
 
     const progress = document.createElement('div');
     progress.className = 'progress';
-
     const bar = document.createElement('div');
     bar.style.width = percent + '%';
-
     progress.appendChild(bar);
 
     const details = document.createElement('div');
     details.className = 'muted';
     details.style.marginTop = '6px';
-    details.textContent =
-      'Потрачено: ' + money(spent);
+    details.textContent = 'Потрачено: ' + money(spent);
 
     element.appendChild(row);
     element.appendChild(progress);
     element.appendChild(details);
-
     container.appendChild(element);
   });
 }
 
-
-// ======================================================
-// НЕДЕЛЯ
-// ======================================================
-
 function renderWeekly() {
   const weekly = appData.weekly || {};
+  document.getElementById('weekBalance').textContent = money(weekly.currentRemaining);
+  document.getElementById('weekSpent').textContent = 'Потрачено за неделю: ' + money(weekly.currentSpent);
 
-  document.getElementById('weekBalance').textContent =
-    money(weekly.currentRemaining);
-
-  document.getElementById('weekSpent').textContent =
-    'Потрачено за неделю: ' +
-    money(weekly.currentSpent);
-
-  const warning =
-    document.getElementById('weekWarning');
-
+  const warning = document.getElementById('weekWarning');
   warning.innerHTML = '';
-
-  const nextRemaining =
-    Number(weekly.nextWeekRemaining);
-
-  if (!Number.isFinite(nextRemaining)) {
-    return;
-  }
+  const nextRemaining = Number(weekly.nextWeekRemaining);
+  if (!Number.isFinite(nextRemaining)) return;
 
   let text = '';
   let className = '';
-
   if (nextRemaining < 5000) {
-    text =
-      'Критически мало денег на следующую неделю. ' +
-      'Остаток: ' + money(nextRemaining);
-
+    text = 'Критически мало денег на следующую неделю. Остаток: ' + money(nextRemaining);
     className = 'red';
-
   } else if (nextRemaining < 7000) {
-    text =
-      'Внимание! Резерв следующей недели уменьшается. ' +
-      'Остаток: ' + money(nextRemaining);
-
+    text = 'Внимание! Резерв следующей недели уменьшается. Остаток: ' + money(nextRemaining);
     className = 'yellow';
-
   } else {
-    text =
-      'Резерв следующей недели: ' +
-      money(nextRemaining);
-
+    text = 'Резерв следующей недели: ' + money(nextRemaining);
     className = 'green';
   }
 
   const block = document.createElement('div');
-
   block.className = 'warning ' + className;
   block.textContent = text;
-
   warning.appendChild(block);
 }
 
-
-// ======================================================
-// ДНИ РОЖДЕНИЯ
-// ======================================================
-
 function renderBirthdays() {
-  const card =
-    document.getElementById('birthdaysCard');
-
-  const list =
-    document.getElementById('birthdayList');
-
-  const birthdays =
-    appData.birthdays || [];
-
+  const card = document.getElementById('birthdaysCard');
+  const list = document.getElementById('birthdayList');
+  const birthdays = appData.birthdays || [];
   list.innerHTML = '';
 
   if (!birthdays.length) {
@@ -827,57 +485,92 @@ function renderBirthdays() {
   }
 
   card.classList.remove('hidden');
+  birthdays.forEach(function(item) {
+    const element = document.createElement('div');
+    element.className = 'birthday-item';
+    const row = document.createElement('div');
+    row.className = 'row';
+    const name = document.createElement('span');
+    name.textContent = item.name;
+    const date = document.createElement('strong');
+    date.textContent = item.date;
+    row.appendChild(name);
+    row.appendChild(date);
+    element.appendChild(row);
+    list.appendChild(element);
+  });
+
+  document.getElementById('birthdayReserve').textContent = money(appData.birthdayReserve);
+}
+
+// Полный список берётся из allBirthdays, который возвращает MiniApp.gs.
+function renderAllBirthdays() {
+  const list = document.getElementById('allBirthdayList');
+  if (!list) return;
+  list.innerHTML = '';
+
+  const birthdays = appData && Array.isArray(appData.allBirthdays)
+    ? appData.allBirthdays
+    : [];
+
+  if (!birthdays.length) {
+    list.innerHTML = '<div class="empty">Список пока пуст.</div>';
+    return;
+  }
 
   birthdays.forEach(function(item) {
     const element = document.createElement('div');
-
     element.className = 'birthday-item';
-
     const row = document.createElement('div');
     row.className = 'row';
 
     const name = document.createElement('span');
-    name.textContent = item.name;
+    name.textContent = item.name || 'Без имени';
 
     const date = document.createElement('strong');
-    date.textContent = item.date;
+    date.textContent = item.date || '';
 
     row.appendChild(name);
     row.appendChild(date);
-
     element.appendChild(row);
+
+    if (Number(item.reserve) > 0) {
+      const reserve = document.createElement('div');
+      reserve.className = 'operation-meta';
+      reserve.textContent = 'Резерв: ' + money(item.reserve);
+      element.appendChild(reserve);
+    }
 
     list.appendChild(element);
   });
-
-  document.getElementById('birthdayReserve').textContent =
-    money(appData.birthdayReserve);
 }
 
+function toggleAllBirthdays(forceOpen) {
+  const card = document.getElementById('allBirthdaysCard');
+  const shouldOpen = typeof forceOpen === 'boolean'
+    ? forceOpen
+    : card.classList.contains('hidden');
 
-// ======================================================
-// БАНКОВСКИЕ УВЕДОМЛЕНИЯ
-// ======================================================
+  if (shouldOpen) {
+    renderAllBirthdays();
+    card.classList.remove('hidden');
+  } else {
+    card.classList.add('hidden');
+  }
+}
 
 function renderPending() {
-  const container =
-    document.getElementById('pendingList');
-
+  const container = document.getElementById('pendingList');
   container.innerHTML = '';
-
-  const pending =
-    appData.pending || [];
+  const pending = appData.pending || [];
 
   if (!pending.length) {
-    container.innerHTML =
-      '<div class="empty">Нет операций, ожидающих подтверждения.</div>';
-
+    container.innerHTML = '<div class="empty">Нет операций, ожидающих подтверждения.</div>';
     return;
   }
 
   pending.forEach(function(item) {
     const card = document.createElement('div');
-
     card.className = 'pending';
 
     const title = document.createElement('div');
@@ -886,8 +579,7 @@ function renderPending() {
 
     const meta = document.createElement('div');
     meta.className = 'operation-meta';
-    meta.textContent =
-      item.date + ' · ' + item.category;
+    meta.textContent = item.date + ' · ' + item.category;
 
     const amount = document.createElement('div');
     amount.style.fontWeight = '800';
@@ -900,65 +592,43 @@ function renderPending() {
     const edit = document.createElement('button');
     edit.className = 'secondary';
     edit.textContent = 'Изменить';
-    edit.onclick = function() {
-      editPending(item);
-    };
+    edit.onclick = function() { editPending(item); };
 
     const confirm = document.createElement('button');
     confirm.textContent = 'Подтвердить';
-    confirm.onclick = function() {
-      confirmPending(item);
-    };
+    confirm.onclick = function() { confirmPending(item); };
 
     const cancel = document.createElement('button');
     cancel.className = 'danger';
     cancel.textContent = 'Отменить';
-    cancel.onclick = function() {
-      cancelPending(item);
-    };
+    cancel.onclick = function() { cancelPending(item); };
 
     actions.appendChild(edit);
     actions.appendChild(confirm);
     actions.appendChild(cancel);
-
     card.appendChild(title);
     card.appendChild(meta);
     card.appendChild(amount);
     card.appendChild(actions);
-
     container.appendChild(card);
   });
 }
 
-
-// ======================================================
-// ИСТОРИЯ
-// ======================================================
-
 function renderHistory() {
-  const container =
-    document.getElementById('history');
-
+  const container = document.getElementById('history');
   container.innerHTML = '';
-
-  const history =
-    appData.history || [];
+  const history = appData.history || [];
 
   if (!history.length) {
-    container.innerHTML =
-      '<div class="empty">Пока нет операций.</div>';
-
+    container.innerHTML = '<div class="empty">Пока нет операций.</div>';
     return;
   }
 
   history.forEach(function(item) {
     const element = document.createElement('div');
-
     element.className = 'operation';
-
     const row = document.createElement('div');
     row.className = 'row';
-
     const left = document.createElement('div');
 
     const title = document.createElement('div');
@@ -967,12 +637,7 @@ function renderHistory() {
 
     const meta = document.createElement('div');
     meta.className = 'operation-meta';
-
-    meta.textContent =
-      item.date +
-      ' · ' +
-      item.category +
-      (item.source ? ' · ' + item.source : '');
+    meta.textContent = item.date + ' · ' + item.category + (item.source ? ' · ' + item.source : '');
 
     left.appendChild(title);
     left.appendChild(meta);
@@ -983,113 +648,61 @@ function renderHistory() {
 
     row.appendChild(left);
     row.appendChild(amount);
-
     element.appendChild(row);
-
     container.appendChild(element);
   });
 }
 
-
-// ======================================================
-// ФОРМА РАСХОДА
-// ======================================================
-
 function showExpenseForm(category) {
   currentCategory = category;
+  currentExpenseType = category === 'Вне бюджета' ? 'Вне бюджета' : 'Расход';
 
-  currentExpenseType =
-    category === 'Вне бюджета'
-      ? 'Вне бюджета'
-      : 'Расход';
+  document.getElementById('expenseMenu').classList.add('hidden');
+  document.getElementById('otherMenu').classList.add('hidden');
+  document.getElementById('expenseForm').classList.remove('hidden');
+  document.getElementById('expenseTitle').textContent = category;
 
-  document.getElementById('expenseMenu')
-    .classList.add('hidden');
-
-  document.getElementById('otherMenu')
-    .classList.add('hidden');
-
-  document.getElementById('expenseForm')
-    .classList.remove('hidden');
-
-  document.getElementById('expenseTitle')
-    .textContent = category;
-
-  document.getElementById('sourceBlock')
-    .classList.toggle(
-      'hidden',
-      currentExpenseType !== 'Вне бюджета'
-    );
+  document.getElementById('sourceBlock').classList.toggle(
+    'hidden',
+    currentExpenseType !== 'Вне бюджета'
+  );
 
   document.getElementById('expenseAmount').value = '';
   document.getElementById('expenseDescription').value = '';
   document.getElementById('expenseSource').value = '';
-
   document.getElementById('expenseAmount').focus();
 }
 
-
 function showOtherMenu() {
-  document.getElementById('expenseMenu')
-    .classList.add('hidden');
-
-  document.getElementById('otherMenu')
-    .classList.remove('hidden');
+  document.getElementById('expenseMenu').classList.add('hidden');
+  document.getElementById('otherMenu').classList.remove('hidden');
 }
-
 
 function backToExpenseMenu() {
-  document.getElementById('expenseForm')
-    .classList.add('hidden');
-
-  document.getElementById('otherMenu')
-    .classList.add('hidden');
-
-  document.getElementById('expenseMenu')
-    .classList.remove('hidden');
+  document.getElementById('expenseForm').classList.add('hidden');
+  document.getElementById('otherMenu').classList.add('hidden');
+  document.getElementById('expenseMenu').classList.remove('hidden');
 }
 
-
-// ======================================================
-// СОХРАНЕНИЕ РАСХОДА
-// ======================================================
-
 function saveExpense() {
-  const amount =
-    Number(document.getElementById('expenseAmount').value);
-
-  const description =
-    document.getElementById('expenseDescription')
-      .value.trim();
-
-  const source =
-    document.getElementById('expenseSource')
-      .value.trim();
+  const amount = Number(document.getElementById('expenseAmount').value);
+  const description = document.getElementById('expenseDescription').value.trim();
+  const source = document.getElementById('expenseSource').value.trim();
 
   if (!Number.isFinite(amount) || amount <= 0) {
     showMessage('Введи корректную сумму.', true);
     return;
   }
-
   if (!description) {
     showMessage('Напиши описание расхода.', true);
     return;
   }
-
-  if (
-    currentExpenseType === 'Вне бюджета' &&
-    !source
-  ) {
+  if (currentExpenseType === 'Вне бюджета' && !source) {
     showMessage('Укажи источник денег.', true);
     return;
   }
 
-  const requestId =
-    'expense_' +
-    Date.now() +
-    '_' +
-    Math.floor(Math.random() * 1000000);
-
+  const requestId = 'expense_' + Date.now() + '_' + Math.floor(Math.random() * 1000000);
   callApi('addExpense', {
     amount: amount,
     description: description,
@@ -1100,205 +713,111 @@ function saveExpense() {
   })
     .then(function(result) {
       appData = result.data;
-
       renderData();
-
       backToExpenseMenu();
-
       showMessage('Расход сохранён.');
-
-      if (tg && tg.HapticFeedback) {
-        tg.HapticFeedback.notificationOccurred('success');
-      }
+      if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
     })
-    .catch(function(error) {
-      showMessage(error.message, true);
-    });
+    .catch(function(error) { showMessage(error.message, true); });
 }
 
-
-// ======================================================
-// НОВЫЙ БЮДЖЕТ
-// ======================================================
-
 function showBudgetForm() {
-  document.getElementById('budgetForm')
-    .classList.remove('hidden');
-
+  document.getElementById('budgetForm').classList.remove('hidden');
   document.getElementById('budgetAmount').focus();
 }
 
-
 function hideBudgetForm() {
-  document.getElementById('budgetForm')
-    .classList.add('hidden');
+  document.getElementById('budgetForm').classList.add('hidden');
 }
 
-
 function saveBudget() {
-  const amount =
-    Number(document.getElementById('budgetAmount').value);
-
+  const amount = Number(document.getElementById('budgetAmount').value);
   if (!Number.isFinite(amount) || amount <= 0) {
     showMessage('Введи корректную сумму.', true);
     return;
   }
 
-  if (
-    !confirm(
-      'Создать новый бюджет на сумму ' +
-      money(amount) +
-      '?\n\nОстатки прошлого периода будут добавлены и распределены заново.'
-    )
-  ) {
-    return;
-  }
+  if (!confirm(
+    'Создать новый бюджет на сумму ' + money(amount) +
+    '?\n\nОстатки прошлого периода будут добавлены и распределены заново.'
+  )) return;
 
-  callApi('addBudget', {
-    amount: amount
-  })
+  callApi('addBudget', { amount: amount })
     .then(function(result) {
       appData = result.data;
-
       renderData();
-
       hideBudgetForm();
-
       document.getElementById('budgetAmount').value = '';
-
       showMessage('Новый бюджет создан.');
     })
-    .catch(function(error) {
-      showMessage(error.message, true);
-    });
+    .catch(function(error) { showMessage(error.message, true); });
 }
-
-
-// ======================================================
-// БАНКОВСКИЕ ОПЕРАЦИИ
-// ======================================================
 
 function confirmPending(item) {
   const category = prompt(
-    'Категория расхода:\n' +
-    'Продукты\n' +
-    'Дни рождения\n' +
-    'Выходные\n' +
-    'Прочее',
+    'Категория расхода:\nПродукты\nДни рождения\nВыходные\nПрочее',
     item.category
   );
-
   if (!category) return;
 
-  if (![
-    'Продукты',
-    'Дни рождения',
-    'Выходные',
-    'Прочее'
-  ].includes(category)) {
+  if (!['Продукты', 'Дни рождения', 'Выходные', 'Прочее'].includes(category)) {
     showMessage('Неизвестная категория.', true);
     return;
   }
 
-  callApi('confirmPending', {
-    operationId: item.id,
-    category: category
-  })
+  callApi('confirmPending', { operationId: item.id, category: category })
     .then(function(result) {
       appData = result.data;
       renderData();
       showMessage('Покупка подтверждена.');
     })
-    .catch(function(error) {
-      showMessage(error.message, true);
-    });
+    .catch(function(error) { showMessage(error.message, true); });
 }
 
-
 function editPending(item) {
-  const amount = prompt(
-    'Сумма операции:',
-    String(item.amount)
-  );
-
+  const amount = prompt('Сумма операции:', String(item.amount));
   if (amount === null) return;
 
   const category = prompt(
-    'Категория:\n' +
-    'Продукты\n' +
-    'Дни рождения\n' +
-    'Выходные\n' +
-    'Прочее',
+    'Категория:\nПродукты\nДни рождения\nВыходные\nПрочее',
     item.category
   );
-
   if (!category) return;
 
-  if (![
-    'Продукты',
-    'Дни рождения',
-    'Выходные',
-    'Прочее'
-  ].includes(category)) {
+  if (!['Продукты', 'Дни рождения', 'Выходные', 'Прочее'].includes(category)) {
     showMessage('Неизвестная категория.', true);
     return;
   }
 
-  callApi('updatePending', {
-    operationId: item.id,
-    amount: amount,
-    category: category
-  })
+  callApi('updatePending', { operationId: item.id, amount: amount, category: category })
     .then(function(result) {
       appData = result.data;
       renderData();
       showMessage('Операция изменена.');
     })
-    .catch(function(error) {
-      showMessage(error.message, true);
-    });
+    .catch(function(error) { showMessage(error.message, true); });
 }
 
-
 function cancelPending(item) {
-  if (!confirm('Отменить это банковское уведомление?')) {
-    return;
-  }
+  if (!confirm('Отменить это банковское уведомление?')) return;
 
-  callApi('cancelPending', {
-    operationId: item.id
-  })
+  callApi('cancelPending', { operationId: item.id })
     .then(function(result) {
       appData = result.data;
       renderData();
       showMessage('Операция отменена.');
     })
-    .catch(function(error) {
-      showMessage(error.message, true);
-    });
+    .catch(function(error) { showMessage(error.message, true); });
 }
-
-
-// ======================================================
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-// ======================================================
 
 function money(value) {
   const number = Number(value) || 0;
-
-  return number.toLocaleString('ru-RU', {
-    maximumFractionDigits: 2
-  }) + ' ₽';
+  return number.toLocaleString('ru-RU', { maximumFractionDigits: 2 }) + ' ₽';
 }
 
-
 function showMessage(message, isError) {
-  const container =
-    document.getElementById('message');
-
-  container.className =
-    isError ? 'card error' : 'card';
-
+  const container = document.getElementById('message');
+  container.className = isError ? 'card error' : 'card';
   container.textContent = message;
 
   if (!isError) {
@@ -1309,15 +828,10 @@ function showMessage(message, isError) {
   }
 }
 
-
 function showFatalError(message) {
-  document.getElementById('loading').innerHTML =
-    '<div class="error"></div>';
-
-  document.querySelector('#loading .error')
-    .textContent = message;
+  document.getElementById('loading').innerHTML = '<div class="error"></div>';
+  document.querySelector('#loading .error').textContent = message;
 }
-
 </script>
 </body>
 </html>
